@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Static-assets-only Worker: serves the Next.js static export.
+  // URL: https://prweb.<account>.workers.dev
+  "name": "prweb",
+  "compatibility_date": "2026-07-01",
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Chat API Worker. URL: https://prweb-chat.<account>.workers.dev
+  // Secrets (set via `wrangler secret put`): NVIDIA_API_KEY
+  "name": "prweb-chat",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-01",
+  "ai": {
+    "binding": "AI"
+  },
+  "vars": {
+    // Origin allowed by CORS; adjust after first deploy.
+    "ALLOWED_ORIGIN": "https://prweb.yopkigom.workers.dev"
+  }
+}

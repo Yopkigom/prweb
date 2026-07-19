@@ -1,0 +1,106 @@
+{
+  "$schema_note": "L1 = card (hook, tags), L2 = summary block (problem/role/outcome), L3 = MDX deep dive in content/projects/<slug>.mdx (source: docs/content-source/)",
+  "projects": [
+    {
+      "slug": "avatar-sequential-generation",
+      "title": "아바타 순차 생성",
+      "hook": "18개+ 부위 조합 아바타의 생성을 비동기화해, 10인 이상 그룹 콘텐츠에서도 평균 30fps+ 유지",
+      "tags": ["Unity", "AssetBundle", "Async", "Optimization"],
+      "period": "Moii",
+      "featured": true,
+      "summary": {
+        "problem": "아바타가 최소 18가지 개별 부위를 조합해 생성되는 구조라, 일반 fbx+아이템 방식 대비 리소스 로딩·정점 연산 비용이 급증해 화면 렌더링이 멈추는 현상이 발생했습니다.",
+        "role": "기존 동기 생성 과정을 비동기 방식으로 재설계하고, 앱 렌더링 성능을 보장하는 최적화를 주도했습니다.",
+        "outcome": "앱 상황에 맞춰 생성 방식을 선택할 수 있게 되었고, 10인 이상 그룹 대화 콘텐츠에서 유저가 실시간 참여해도 렌더링 성능 저하 없이 서비스를 제공했습니다."
+      },
+      "metrics": [
+        { "label": "평균 프레임", "value": "30fps+" },
+        { "label": "조합 부위 수", "value": "18+" }
+      ],
+      "video": "https://youtu.be/Yco9RlBlzXs",
+      "diagram": "https://www.figma.com/board/8ELaCKEIzunhdEfAZBkqxX/%EC%95%84%EB%B0%94%ED%83%80-%EC%88%9C%EC%B0%A8-%EC%83%9D%EC%84%B1%EB%8F%84?node-id=0-1&p=f&t=Y4TUY6qIqD77Vfhx-0",
+      "deepDive": "avatar-sequential-generation"
+    },
+    {
+      "slug": "agora-double-buffer-recording",
+      "title": "Agora 더블 버퍼링 기반 음성 녹음",
+      "hook": "렌더링 프레임을 지키면서 실시간 음성 전송·녹음·립싱크를 동시에 수행하는 더블 버퍼링 구조",
+      "tags": ["Unity", "Agora", "Multithreading", "Realtime"],
+      "period": "Moii",
+      "featured": true,
+      "summary": {
+        "problem": "Agora 음성 공유를 실시간 녹음하는 기능이 필요했지만, 제공 API를 그대로 사용하면 심각한 성능 저하가 발생해 실시간 대화에 지장을 주었습니다.",
+        "role": "API 문서 분석과 Agora 기술지원팀 협의로 스펙을 확정하고, 더블 버퍼링 기반 버퍼 전달 구조를 설계·구현했습니다.",
+        "outcome": "프레임을 유지하면서 다중 사용자 음성 전송과 녹음, 아바타 립싱크를 동시에 수행할 수 있게 되었습니다. Unity MainThread의 제한된 연산 자원에 맞는 멀티스레드 최적화 전략을 정립했습니다."
+      },
+      "metrics": [],
+      "video": "https://www.youtube.com/embed/t_vcZU3ZO-0",
+      "diagram": "https://www.figma.com/board/MIQEXKahtL5xCwCPBNBKu0/Agora-%EB%8D%94%EB%B8%94-%EB%B2%84%ED%8D%BC%EB%A7%81-%EA%B8%B0%EB%B0%98-%EC%9D%8C%EC%84%B1-%EC%A0%84%EB%8B%AC%EB%8F%84?node-id=0-1&t=ggyMhXSC8bkSmqkR-1",
+      "deepDive": "agora-double-buffer-recording"
+    },
+    {
+      "slug": "team-lead-retrospective",
+      "title": "팀장 달아도, 성장은 계속된다",
+      "hook": "개발 4명으로 시작해 4개월 만에 Prototype, 1년 만에 Open Beta — 문제 해결 관점의 팀장 회고",
+      "tags": ["Leadership", "Architecture", "RDD/MVP"],
+      "period": "3년",
+      "featured": true,
+      "summary": {
+        "problem": "서비스 로직과 기능 구현이 엉켜 재사용·확장이 어려운 레거시 코드와 소수 개발 인력(4명)으로 신규 서비스를 만들어야 했습니다.",
+        "role": "RDD 기반 MVP 패턴 방법론 정의, 공용 라이브러리(직렬화·통신·암호화·압축) 구축, 프로젝트 구조 분리를 경영진에 제안·적용하고, 주니어 교육과 칸반 운영, AssetBundle 시스템 구축을 담당했습니다.",
+        "outcome": "4개월 만에 팀 인프라와 Prototype을 완성하고, 초기와 동일한 인원으로 1년 만에 Open Beta를 출시했습니다. 이후 서비스 안정화와 콘텐츠 확장(음성 녹음, 아바타 순차 생성)으로 이어갔습니다."
+      },
+      "metrics": [
+        { "label": "Prototype", "value": "4개월" },
+        { "label": "Open Beta", "value": "1년" },
+        { "label": "개발 인원", "value": "4명" }
+      ],
+      "deepDive": "team-lead-retrospective"
+    },
+    {
+      "slug": "ai-usage-review-2024",
+      "title": "프로그래머는 이제 완전을 꿈꾼다",
+      "hook": "검색엔진이 아니라 토론 상대 — 2023년부터 실무에 적용해온 메타인지와 AI 동료론",
+      "tags": ["AI", "Workflow", "Productivity"],
+      "period": "2023-2024",
+      "featured": false,
+      "summary": {
+        "problem": "구글링 중심의 자료 조사로는 기술 의사결정 속도에 한계가 있었습니다.",
+        "role": "2023년 초부터 AI를 실무에 적용하며 사용 법칙(역할 확장, 명확한 키워드, 키워드 요구)을 정립했습니다.",
+        "outcome": "RingBuffer 성능 최적화, 다중 스레드 연결 구조, AssetBundle 로딩 최적화 등 실제 산출물에 AI 협업을 적용했습니다. 'AI는 책임지지 않는다 — 산출물을 책임지는 것은 사람'이라는 원칙을 유지합니다."
+      },
+      "metrics": [],
+      "deepDive": "ai-usage-review-2024"
+    },
+    {
+      "slug": "coding-style",
+      "title": "코딩은 이렇게 하고 있어요",
+      "hook": "Unity Main Thread 부하를 줄이는 개인 라이브러리 ZIPUtility로 보는 코딩 스타일",
+      "tags": ["C#", "Convention", "Code Quality"],
+      "period": "",
+      "featured": false,
+      "summary": {
+        "problem": "Runtime 중 압축 작업이 Unity Main Thread 프레임을 잠식하는 문제를 반복적으로 다뤄야 했습니다.",
+        "role": "MemoryStream 기반 ZIP 유틸리티를 설계하고, Worker Thread를 비동기/동기로 쓰는 두 전략(CompressAsync/CompressAsyncFast)을 상황별로 분리했습니다.",
+        "outcome": "동시 압축 3개 미만에서는 동기 Worker Thread 방식이 더 빠름을 확인해 API를 이원화했습니다. 검증·예외 처리와 명시적 리소스 해제까지 포함한 프로덕션 스타일의 예제입니다."
+      },
+      "metrics": [],
+      "deepDive": "coding-style"
+    },
+    {
+      "slug": "ask-ai-behind-the-scenes",
+      "title": "이 사이트의 Ask AI는 어떻게 만들어졌나",
+      "hook": "Workers AI 1차 + NVIDIA 폴백, 엣지 제약 하의 챗봇 설계기",
+      "tags": ["Cloudflare Workers", "LLM Routing", "Edge"],
+      "period": "2026",
+      "featured": false,
+      "summary": {
+        "problem": "무료 티어 제약(크레딧 소진형 API, RPM 한도) 아래에서 항상 살아있는 챗봇이 필요",
+        "role": "설계 및 구현 전체",
+        "outcome": "TODO: 완성 후 기록"
+      },
+      "metrics": [],
+      "deepDive": "ask-ai-behind-the-scenes"
+    }
+  ]
+}

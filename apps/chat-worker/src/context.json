@@ -1,0 +1,47 @@
+{
+  "name": "신호정 (Shin Hojeong)",
+  "headline": "실용성과 성능을 중시하는 15년차 시니어 Unity 개발자, On-Device AI 엔지니어로 전환 중",
+  "career": "Unity3D와 C# 기반 모바일 프로젝트를 중심으로 서비스 로직 설계·구현, Video/Audio 처리, Networking 등을 실전에서 경험. 실시간 처리, 버퍼링 최적화, 복잡한 아바타 조합 로직 등 단위 기술부터 아키텍처 전반까지 팀의 문제 해결을 주도. 팀장으로서 개발 4명 규모 팀을 이끌어 4개월 만에 Prototype, 1년 만에 Open Beta 출시. RDD 기반 MVP 패턴 방법론 정의, 공용 라이브러리 구축, 프로젝트 구조 분리, 주니어 교육 담당. 현재 ExecuTorch, llama.cpp, Unity Sentis, TensorFlow Lite 중심의 On-Device AI 포트폴리오를 진행 중 (K-DT 과정 수료).",
+  "skills": [
+    "Unity3D (15yr, mobile multiplatform)",
+    "C# (MS 표준 + POCU 스타일)",
+    "Python",
+    "실시간 처리 / 멀티스레딩 / 버퍼링 최적화",
+    "AssetBundle / Addressables",
+    "Agora / Vivox 음성 채팅",
+    "RDD 기반 MVP 아키텍처",
+    "팀 리딩 / 주니어 교육 / 칸반 운영",
+    "ExecuTorch / llama.cpp / Unity Sentis / TensorFlow Lite (전환 중)"
+  ],
+  "projects": [
+    {
+      "title": "아바타 순차 생성",
+      "summary": "최소 18개 부위를 조합해 생성되는 아바타의 로딩·정점 연산 비용 때문에 렌더링이 멈추는 문제를, 생성 과정 비동기화와 최적화로 해결. 10인 이상 그룹 대화 콘텐츠에서도 평균 30fps 이상을 유지하며 유저 실시간 참여를 지원."
+    },
+    {
+      "title": "Agora 더블 버퍼링 기반 음성 녹음",
+      "summary": "Agora 음성 공유의 실시간 녹음 시 API 성능 저하 문제를 더블 버퍼링 기반 버퍼 전달 구조로 해결. 렌더링 프레임을 유지하면서 다중 사용자 음성 전송·녹음·아바타 립싱크를 동시 수행. Agora 기술지원팀과 협의하며 스펙 확정. RingBuffer 최적화와 다중 Thread 연결 구조 구현."
+    },
+    {
+      "title": "팀장 회고",
+      "summary": "레거시 코드와 소수 인력(개발 4명) 상황에서 RDD 기반 MVP 방법론, 공용 라이브러리, 프로젝트 구조 분리를 도입. 4개월 만에 인프라+Prototype, 초기 인원 그대로 1년 만에 Open Beta 출시. 이후 서비스 안정화, 백그라운드 통신 환경 구현(Worker Thread 기반), 콘텐츠 확장을 주도. 현재 서버리스 멀티플레이 콘텐츠 준비 중."
+    },
+    {
+      "title": "AI 활용",
+      "summary": "2023년 초부터 AI를 실무에 적용. '검색엔진이 아니라 토론 상대로 이끌어라, 명확한 키워드가 좋은 답변을 만든다, 생소한 분야는 키워드부터 요구하라'는 사용 법칙 정립. 'AI는 책임지지 않는다. 산출물을 책임지는 것은 사람'이라는 원칙 유지."
+    },
+    {
+      "title": "코딩 스타일 (ZIPUtility)",
+      "summary": "Unity Runtime Main Thread 부하를 줄이는 데 초점을 맞춘 개인 라이브러리. MemoryStream 기반 ZIP 압축을 Worker Thread 비동기/동기 두 전략으로 이원화. 파라미터 검증과 예외 처리를 포함한 프로덕션 스타일."
+    }
+  ],
+  "patents": [
+    "국내 특허 (2018): doi.org/10.8080/1020180001302",
+    "Moii: doi.org/10.8080/1020240040821",
+    "Moii(U.S.): US20240177389A1"
+  ],
+  "links": {
+    "site": "https://prweb.yopkigom.workers.dev",
+    "github": "TODO"
+  }
+}
