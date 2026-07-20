@@ -7,3 +7,8 @@ out/
 *.log
 .DS_Store
 .claude/
+test-results/
+playwright-report/
+blob-report/
+lighthouse-report/
+C:*

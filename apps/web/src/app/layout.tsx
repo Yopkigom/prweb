@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ThemeProvider } from "../components/theme-provider";
+import { ThemeToggle } from "../components/theme-toggle";
 import "./globals.css";
 
 const SITE_URL = "https://prweb.yopkigom.workers.dev";
@@ -50,51 +52,59 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="h-full antialiased">
+    <html lang="ko" className="h-full antialiased" suppressHydrationWarning>
       <body className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-        <header className="sticky top-0 z-10 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur">
-          <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-            <Link href="/" className="font-semibold tracking-tight">
-              신호정
-            </Link>
-            <ul className="flex gap-6 text-sm text-zinc-600 dark:text-zinc-400">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </header>
-        <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
-          {children}
-        </main>
-        <footer className="border-t border-zinc-200 dark:border-zinc-800">
-          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-sm text-zinc-500">
-            <span>© 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers</span>
-            <span className="flex gap-4">
-              <a
-                href="mailto:seenjeonga@gmail.com"
-                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <header className="sticky top-0 z-10 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur">
+            <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+              <Link
+                href="/"
+                className="-m-2 p-2 font-semibold tracking-tight"
               >
-                Email
-              </a>
-              <a
-                href="https://github.com/Yopkigom"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-              >
-                GitHub
-              </a>
-            </span>
-          </div>
-        </footer>
+                신호정
+              </Link>
+              <div className="flex items-center gap-6">
+                <ul className="flex gap-6 text-sm text-zinc-600 dark:text-zinc-400">
+                  {NAV_ITEMS.map((item) => (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <ThemeToggle />
+              </div>
+            </nav>
+          </header>
+          <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
+            {children}
+          </main>
+          <footer className="border-t border-zinc-200 dark:border-zinc-800">
+            <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-sm text-zinc-500">
+              <span>© 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers</span>
+              <span className="flex gap-4">
+                <a
+                  href="mailto:seenjeonga@gmail.com"
+                  className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                >
+                  Email
+                </a>
+                <a
+                  href="https://github.com/Yopkigom"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                >
+                  GitHub
+                </a>
+              </span>
+            </div>
+          </footer>
+        </ThemeProvider>
         <script
           defer
           src="https://static.cloudflareinsights.com/beacon.min.js"
