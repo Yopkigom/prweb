@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 
 const PATENTS = [
   {
-    label: "특허 (2018)",
+    label: "오잉글리시 (2018, 서비스 종료)",
     href: "http://doi.org/10.8080/1020180001302",
   },
   {
@@ -55,6 +55,30 @@ export default function AboutPage() {
         <p>
           함께 성장할 수 있는 팀과 프로젝트에서, 실질적인 성과로 보답하겠습니다.
         </p>
+      </section>
+
+      <section className="space-y-3 border-t border-zinc-200 pt-8 dark:border-zinc-800">
+        <h2 className="text-xl font-semibold tracking-tight">연락처</h2>
+        <ul className="space-y-1 text-sm">
+          <li>
+            <a
+              href="mailto:seenjeonga@gmail.com"
+              className="text-zinc-600 underline underline-offset-4 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >
+              seenjeonga@gmail.com
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/Yopkigom"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-600 underline underline-offset-4 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100"
+            >
+              github.com/Yopkigom
+            </a>
+          </li>
+        </ul>
       </section>
 
       <section className="space-y-3 border-t border-zinc-200 pt-8 dark:border-zinc-800">

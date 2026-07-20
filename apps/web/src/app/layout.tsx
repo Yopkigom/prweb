@@ -75,8 +75,24 @@ export default function RootLayout({
           {children}
         </main>
         <footer className="border-t border-zinc-200 dark:border-zinc-800">
-          <div className="mx-auto max-w-5xl px-6 py-8 text-sm text-zinc-500">
-            © 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-sm text-zinc-500">
+            <span>© 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers</span>
+            <span className="flex gap-4">
+              <a
+                href="mailto:seenjeonga@gmail.com"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+              >
+                Email
+              </a>
+              <a
+                href="https://github.com/Yopkigom"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+              >
+                GitHub
+              </a>
+            </span>
           </div>
         </footer>
         <script

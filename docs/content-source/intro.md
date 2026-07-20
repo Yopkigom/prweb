@@ -26,7 +26,6 @@ Unity3D와 C# 기반의 모바일 프로젝트를 중심으로
 
 ## 직무 특허
 
-<!-- NOTE: 첫 번째 특허의 제품명은 원본 인코딩 손상으로 확인 필요 (TODO: confirm name) -->
-- 특허 (2018): http://doi.org/10.8080/1020180001302
+- 오잉글리시 (2018, 서비스 종료): http://doi.org/10.8080/1020180001302
 - Moii: https://doi.org/10.8080/1020240040821
 - Moii(U.S.): https://patents.google.com/patent/US20240177389A1/en?oq=18%2F071%2C640

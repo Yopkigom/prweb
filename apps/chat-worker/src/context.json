@@ -36,12 +36,13 @@
     }
   ],
   "patents": [
-    "국내 특허 (2018): doi.org/10.8080/1020180001302",
+    "오잉글리시 (2018, 서비스 종료): doi.org/10.8080/1020180001302",
     "Moii: doi.org/10.8080/1020240040821",
     "Moii(U.S.): US20240177389A1"
   ],
   "links": {
     "site": "https://prweb.yopkigom.workers.dev",
-    "github": "TODO"
+    "github": "https://github.com/Yopkigom",
+    "email": "seenjeonga@gmail.com"
   }
 }
