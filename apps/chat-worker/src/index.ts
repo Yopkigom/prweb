@@ -29,7 +29,12 @@ interface ChatResult {
 const WORKERS_AI_CHAT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 const WORKERS_AI_ROUTER_MODEL = "@cf/meta/llama-3.2-3b-instruct";
 const NVIDIA_ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions";
-const NVIDIA_MODEL = "meta/llama-3.3-70b-instruct";
+// NOTE: meta/llama-3.3-70b-instruct hangs indefinitely on the free tier
+// (verified 2026-07-20); nemotron-super responds in <1s from the edge.
+const NVIDIA_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5";
+// Free-tier NVIDIA requests can queue for a long time; fail fast so the
+// Workers AI fallback keeps overall latency acceptable.
+const NVIDIA_TIMEOUT_MS = 60_000;
 
 const MAX_MESSAGES = 20;
 const MAX_CONTENT_LENGTH = 2000;
@@ -126,6 +131,7 @@ async function askNvidia(env: Env, messages: ChatMessage[]): Promise<string> {
     throw new Error("NVIDIA_API_KEY secret is not configured");
   }
 
+  const startedAt = Date.now();
   const response = await fetch(NVIDIA_ENDPOINT, {
     method: "POST",
     headers: {
@@ -138,10 +144,14 @@ async function askNvidia(env: Env, messages: ChatMessage[]): Promise<string> {
       max_tokens: 1024,
       temperature: 0.5,
     }),
+    signal: AbortSignal.timeout(NVIDIA_TIMEOUT_MS),
   });
 
+  console.log(`NVIDIA responded ${response.status} in ${Date.now() - startedAt}ms`);
+
   if (!response.ok) {
-    throw new Error(`NVIDIA API responded with ${response.status}`);
+    const body = await response.text();
+    throw new Error(`NVIDIA API ${response.status}: ${body.slice(0, 300)}`);
   }
 
   const data = (await response.json()) as {

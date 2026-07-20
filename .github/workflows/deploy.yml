@@ -35,6 +35,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: apps/web
+          wranglerVersion: "4.112.0"
 
   deploy-chat:
     name: Deploy chat worker (prweb-chat)
@@ -60,3 +61,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: apps/chat-worker
+          wranglerVersion: "4.112.0"
