@@ -1,0 +1,43 @@
+## 업무 동기
+
+[Agora](https://www.agora.io/kr/)는 실시간 음성, 영상, 메시지 등 다양한 통신 기능을 제공하는 플랫폼이며,
+[Moii](https://www.moii.net/)는 Agora를 활용해 음성 채팅 서비스를 제공하고 있습니다.
+
+사용자 간 대화 기능을 지원하면서 두 가지 주요 요구사항이 발생했습니다.
+
+1. 사용자의 음성 입력 여부에 따라 아바타가 립싱크하는 기능
+2. Agora를 통해 공유되는 음성을 실시간으로 녹음하는 기능
+
+첫 번째 기능은 제공되는 API로 간단히 구현할 수 있었지만,
+두 번째 기능은 API 사용 시 **심각한 성능 저하**가 발생하는 문제가 있었습니다.
+실시간 유저 간 소통에 지장이 없으면서 동시에 음성 녹음이 원활히 이루어져야 했기 때문에,
+API 기반의 최적화 작업을 진행하게 되었습니다.
+
+## 업무 전개
+
+- [개발자 문서](https://api-ref.agora.io/en/voice-sdk/unity/4.x/API/rtc_api_overview.html)를 통해 관련 API를 파악하고 최적화 개요를 수립
+- 문서에 없는 동작은 Agora 기술지원팀 Slack 채널로 직접 문의하여 스펙 확정
+- **더블 버퍼링 기반의 버퍼 전달 구조**를 목표로 설계·구현
+- C# 기반 성능 최적화 RingBuffer 제작, 실시간 스트리밍 전달을 위한 다중 Thread 연결 구조 구현, 대용량 버퍼 전달 과정 최적화
+
+전체 흐름은 [워크 다이어그램 (Figma)](https://www.figma.com/board/MIQEXKahtL5xCwCPBNBKu0/Agora-%EB%8D%94%EB%B8%94-%EB%B2%84%ED%8D%BC%EB%A7%81-%EA%B8%B0%EB%B0%98-%EC%9D%8C%EC%84%B1-%EC%A0%84%EB%8B%AC%EB%8F%84?node-id=0-1&t=ggyMhXSC8bkSmqkR-1)에서 확인할 수 있습니다.
+
+## 시연 영상
+
+<div className="aspect-video">
+  <iframe
+    className="h-full w-full rounded-lg"
+    src="https://www.youtube.com/embed/t_vcZU3ZO-0"
+    title="Agora 더블 버퍼링 기반 음성 녹음 시연"
+    allowFullScreen
+    loading="lazy"
+  />
+</div>
+
+## 업무 성과
+
+프레임(렌더링)을 유지하면서 실시간으로 음성을 다중 사용자에게 전송함과 동시에
+음성을 녹음하고 아바타의 립싱크를 수행할 수 있게 되었습니다.
+
+이 과정에서 Thread의 특성을 이해하고 Multi Thread를 활용하는 능력이 크게 향상되었으며,
+Unity MainThread의 제한된 연산 자원을 이해하고 거기에 맞는 최적화 전략을 수립할 수 있게 되었습니다.

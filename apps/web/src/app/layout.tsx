@@ -2,13 +2,40 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
 
+const SITE_URL = "https://prweb.yopkigom.workers.dev";
+const SITE_DESCRIPTION =
+  "15년 실서비스 Unity 경험으로 On-Device AI를 만듭니다. ExecuTorch · llama.cpp · Unity Sentis · TFLite 포트폴리오.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "신호정 — Unity & On-Device AI Engineer",
     template: "%s | 신호정",
   },
-  description:
-    "15년 실서비스 Unity 경험으로 On-Device AI를 만듭니다. ExecuTorch · llama.cpp · Unity Sentis · TFLite 포트폴리오.",
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "Unity",
+    "On-Device AI",
+    "ExecuTorch",
+    "llama.cpp",
+    "Unity Sentis",
+    "TensorFlow Lite",
+    "포트폴리오",
+  ],
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "신호정 포트폴리오",
+    title: "신호정 — Unity & On-Device AI Engineer",
+    description: SITE_DESCRIPTION,
+    locale: "ko_KR",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "신호정 — Unity & On-Device AI Engineer",
+    description: SITE_DESCRIPTION,
+  },
+  robots: { index: true, follow: true },
 };
 
 const NAV_ITEMS = [

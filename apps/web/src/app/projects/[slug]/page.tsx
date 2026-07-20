@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { deepDives } from "../../../content";
 import { getAllProjects, getProjectBySlug } from "../../../lib/projects";
 
 interface ProjectPageProps {
@@ -97,16 +98,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </section>
       )}
 
-      {/* L3: technical deep dive — MDX content will be rendered here */}
-      <section className="space-y-4 border-t border-zinc-200 pt-8 dark:border-zinc-800">
-        <h2 className="text-xl font-semibold tracking-tight">
-          Technical Deep Dive
-        </h2>
-        <p className="text-sm text-zinc-500">
-          {/* TODO(Phase 2): render content/projects/{project.deepDive}.mdx */}
-          딥다이브 콘텐츠 준비 중입니다.
-        </p>
-      </section>
+      {(() => {
+        const DeepDive = deepDives[project.deepDive];
+        if (DeepDive === undefined) {
+          return null;
+        }
+        return (
+          <section className="space-y-4 border-t border-zinc-200 pt-8 dark:border-zinc-800">
+            <h2 className="text-xl font-semibold tracking-tight">
+              Technical Deep Dive
+            </h2>
+            <div className="prose prose-zinc max-w-none dark:prose-invert prose-a:underline-offset-4">
+              <DeepDive />
+            </div>
+          </section>
+        );
+      })()}
     </article>
   );
 }

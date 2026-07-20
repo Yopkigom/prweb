@@ -95,9 +95,9 @@
       "period": "2026",
       "featured": false,
       "summary": {
-        "problem": "무료 티어 제약(크레딧 소진형 API, RPM 한도) 아래에서 항상 살아있는 챗봇이 필요",
-        "role": "설계 및 구현 전체",
-        "outcome": "TODO: 완성 후 기록"
+        "problem": "예산 0원 제약(크레딧 소진형 API, RPM 한도, 무료 일일 한도) 아래에서 항상 살아있는 챗봇이 필요했습니다.",
+        "role": "라우팅 설계부터 남용 방지, 스트리밍, CI/CD까지 전체 설계·구현을 담당했습니다.",
+        "outcome": "질문 성격별 3경로 라우팅으로 크레딧 소모를 최소화하고, Turnstile + Durable Object rate limit + 폴백 체인으로 운영비 0원 상태의 무중단 챗봇을 완성했습니다."
       },
       "metrics": [],
       "deepDive": "ask-ai-behind-the-scenes"
