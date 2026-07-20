@@ -47,11 +47,18 @@ apps/chat-worker/  Hono + Workers AI 바인딩, Worker "prweb-chat"
 ## 단계별 진행 상황
 
 - [x] **0. 스캐폴드**: 리포 구조, Next.js static export, 페이지 라우트, 챗봇 Worker 스켈레톤, CI 워크플로
-- [ ] **1. 콘텐츠**: 노션 7편 → L1/L2/L3 재편집, `projects.json` + `context.json` TODO 채우기 (노션 Markdown 내보내기 필요)
-- [ ] **2. 페이지 완성**: MDX 딥다이브 렌더링, About 페이지, 디자인 다듬기 (Vercel 블로그 스타일)
-- [ ] **3. 배포**: GitHub 리포 생성, Cloudflare 계정 서브도메인 `yopkigom` 설정, 시크릿 등록(`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`), 첫 배포
-- [ ] **4. 챗봇 완성**: Ask AI 채팅 UI, SSE 스트리밍, Turnstile + rate limit, `NVIDIA_API_KEY` 시크릿
+- [x] **1. 콘텐츠**: 노션 원문 복원(`docs/content-source/`), `projects.json` L1/L2 반영, About 페이지, 챗봇 `context.json` (남은 것: L3 MDX 딥다이브)
+- [ ] **2. 페이지 완성**: MDX 딥다이브 렌더링, 디자인 다듬기 (Vercel 블로그 스타일)
+- [x] **3. 배포**: GitHub 리포(`Yopkigom/prweb`), 서브도메인 `yopkigom`, CI 시크릿 등록, 자동 배포 green 확인 (2026-07-20)
+- [x] **4. 챗봇 완성**: Ask AI 채팅 UI, SSE 스트리밍, Turnstile(위젯 `prweb-ask-ai`) + IP rate limit(10회/분), `NVIDIA_API_KEY` 등록
 - [ ] **5. 마감**: OG 이미지, SEO 메타, Cloudflare Web Analytics, "Ask AI 제작기" 딥다이브 글
+
+### 운영 기록 (2026-07-20)
+
+- NVIDIA `meta/llama-3.3-70b-instruct`는 무료 티어에서 응답 없이 무한 대기 → `nvidia/llama-3.3-nemotron-super-49b-v1.5`로 교체 (엣지 실측 0.6초)
+- wrangler-action 기본 wrangler 3.90은 assets 전용 Worker 미지원 → `wranglerVersion: 4.112.0` 고정
+- Workers `unsafe` ratelimit 바인딩과 인메모리 카운터 모두 실효 없음(실측: isolate 분산) → **Durable Object(SQLite) 슬라이딩 윈도우**로 확정, Turnstile이 1차 방어선
+- Turnstile: 매 메시지마다 단일 사용 토큰 검증 (siteverify), 위젯 도메인: workers.dev + localhost
 
 ## 운영 시 주의
 

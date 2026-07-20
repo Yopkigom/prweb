@@ -6,3 +6,4 @@ out/
 .env*
 *.log
 .DS_Store
+.claude/

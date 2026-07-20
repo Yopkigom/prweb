@@ -11,6 +11,14 @@
   "observability": {
     "enabled": true
   },
+  "durable_objects": {
+    "bindings": [
+      { "name": "RATE_LIMITER_DO", "class_name": "RateLimiterDO" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["RateLimiterDO"] }
+  ],
   "vars": {
     // Origin allowed by CORS; adjust after first deploy.
     "ALLOWED_ORIGIN": "https://prweb.yopkigom.workers.dev"
