@@ -1,0 +1,143 @@
+# 유지보수 가이드
+
+이 문서는 향후 이 리포로 돌아왔을 때(자신이든, 다른 세션의 Claude든) 막힘없이 작업을 이어갈 수 있도록 만든 운영 매뉴얼입니다. 아키텍처와 설계 이유는 [PLAN.md](./PLAN.md)와 [README.md](../README.md)를 참고하고, 이 문서는 "실제로 손을 댈 때 무엇을 어떻게 하는가"에 집중합니다.
+
+## 1. 리포/서비스 지도
+
+| 이름 | 위치 | 배포 대상 | 역할 |
+|---|---|---|---|
+| `web` | `apps/web/` | Worker `prweb` → `prweb.yopkigom.workers.dev` | Next.js static export, 콘텐츠 사이트 |
+| `chat-worker` | `apps/chat-worker/` | Worker `prweb-chat` → `prweb-chat.yopkigom.workers.dev` | 챗봇 API (Hono, SSE) |
+
+- GitHub: `Yopkigom/prweb` (public)
+- Cloudflare 계정: `Seenjeonga@gmail.com's Account`
+- 배포: **main 브랜치 push → GitHub Actions(`deploy.yml`)가 두 Worker를 자동 배포**. 수동 배포는 각 앱 디렉터리에서 `npx wrangler deploy`.
+
+## 2. 콘텐츠 수정하기
+
+### 프로젝트 카드/요약(L1·L2) 수정
+
+`apps/web/src/data/projects.json` 편집. 스키마:
+
+```jsonc
+{
+  "slug": "url-slug",
+  "title": "카드 제목",
+  "hook": "L1 한 줄 훅",
+  "tags": ["태그1", "태그2"],
+  "featured": true,          // 메인 페이지 노출 여부
+  "summary": { "problem": "...", "role": "...", "outcome": "..." },  // L2
+  "metrics": [{ "label": "지표명", "value": "수치" }],
+  "video": "https://...",     // 선택
+  "diagram": "https://...",   // 선택
+  "deepDive": "slug"           // src/content/index.ts의 키와 일치해야 함
+}
+```
+
+### 딥다이브(L3) 수정/추가
+
+1. `apps/web/src/content/projects/<slug>.mdx` 작성 (또는 기존 파일 수정)
+2. `apps/web/src/content/index.ts`에 import + `deepDives` 맵 등록
+3. `projects.json`에 해당 프로젝트가 없다면 항목 추가, `deepDive` 필드를 slug와 일치시킬 것
+
+새 프로젝트를 완전히 추가하는 순서: ① `projects.json`에 항목 추가 → ② `.mdx` 작성 → ③ `content/index.ts`에 등록 → ④ `npm run build`로 정적 생성 확인 → ⑤ `npm run test:e2e`로 회귀 확인.
+
+YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 쓸 것 (서드파티 쿠키 이슈 완화, Lighthouse best-practices 감점 방지).
+
+### 챗봇이 아는 내용 갱신
+
+`apps/chat-worker/src/context.json`을 편집하고 재배포. 이 파일 전체가 시스템 프롬프트에 그대로 주입되므로, 사실관계가 바뀌면(이직, 새 프로젝트 등) 반드시 이 파일도 함께 갱신해야 챗봇이 최신 정보로 답합니다.
+
+### About / 연락처
+
+`apps/web/src/app/about/page.tsx`, 푸터는 `apps/web/src/app/layout.tsx`.
+
+## 3. 로컬 개발
+
+```bash
+# 사이트
+cd apps/web && npm install && npm run dev
+
+# 챗봇 Worker (Workers AI는 원격 바인딩으로 실제 호출됨 — 과금은 없지만 무료 한도 소모)
+cd apps/chat-worker && npm install && npm run dev
+```
+
+챗봇을 로컬 UI에서 테스트하려면 `chat-client.tsx`의 `CHAT_ENDPOINT`를 로컬 Worker 주소로 임시 변경해야 합니다(현재는 프로덕션 Worker URL이 하드코딩되어 있음). Turnstile 위젯은 `localhost`/`127.0.0.1` 도메인이 이미 허용 목록에 있어 로컬에서도 정상 렌더링됩니다.
+
+## 4. 배포 전 체크리스트 (CI가 자동으로 강제함)
+
+`apps/web`을 건드렸다면 push 전에:
+
+```bash
+cd apps/web
+npm run lint
+npm run build
+npm run test:e2e   # playwright, out/ 빌드 결과에 대해 실행됨
+```
+
+`apps/chat-worker`를 건드렸다면:
+
+```bash
+cd apps/chat-worker
+npm run typecheck
+```
+
+GitHub Actions(`deploy.yml`)가 lint → build → **E2E(웹만)** → deploy 순으로 실행하며, E2E가 실패하면 배포되지 않습니다. 로컬에서 위 명령이 통과하면 CI도 통과합니다.
+
+### E2E 테스트 (`apps/web/e2e/site.spec.ts`)
+
+정적 빌드(`out/`)를 `serve`로 띄워 그 위에서 실행합니다. 현재 커버리지: 홈 히어로, 내비게이션 전체 경로, 프로젝트 상세(L2/L3 섹션 존재), 404, 테마 토글(라이트/다크 전환·새로고침 후 유지), Ask 페이지 레이아웃(가로 스크롤 없음, 입력창 활성화 로직).
+
+**의도적으로 테스트하지 않는 것**: 실제 챗봇 메시지 왕복(Turnstile 챌린지 + 실제 LLM 호출). CI에서 실행할 때마다 프로덕션 NVIDIA 크레딧/Workers AI 무료 한도를 소모하고, 헤드리스 브라우저의 Turnstile 통과 여부가 불안정해 플레이키해지기 때문입니다. UI 구조(입력창, 버튼 활성화 조건)만 검증합니다.
+
+### Lighthouse (수동, 정기 점검용)
+
+CI에는 없음 — 필요할 때 로컬에서:
+
+```bash
+cd apps/web && npm run build
+npx serve out -l 4173 &
+CHROME_PATH=$(find ~/.cache/ms-playwright -name chrome -type f | head -1) \
+  npx lighthouse http://127.0.0.1:4173/ --chrome-flags="--headless=new --no-sandbox"
+```
+
+마지막 측정(2026-07-20): 전 페이지 accessibility 100 / performance 97~100 / SEO 100 / best-practices 92~96 (남은 감점은 로컬 테스트 환경의 CORS 아티팩트와 YouTube 임베드의 불가피한 쿠키 이슈 — 아래 5절 참고).
+
+## 5. 알려진 함정 (다시 겪지 않도록)
+
+| 증상 | 원인 | 대응 |
+|---|---|---|
+| NVIDIA 응답이 60초 넘게 안 옴 | 모델별로 무료 티어 대기열 편차가 큼. `llama-3.3-70b-instruct`는 무한 대기 확인됨 | `nvidia/llama-3.3-nemotron-super-49b-v1.5` 사용 중. 모델 교체 시 반드시 엣지에서 직접 격리 테스트(무인증 GET→POST→인증 POST) 후 반영 |
+| Workers `unsafe` ratelimit 바인딩이 요청을 거부 안 함 | 실측 결과 40회 연타까지 전부 통과 — 신뢰 금지 | Rate limit은 **Durable Object**(`RateLimiterDO`, SQLite 슬라이딩 윈도우)로 구현되어 있음. 새 rate limit이 필요해도 이 패턴 재사용 |
+| 배포 직후 새 기능이 반영 안 된 것처럼 보임 | Cloudflare 엣지 전파 지연 (수십 초) | 배포 직후 검증은 반드시 30~60초 대기 후 재확인. 즉시 검증은 거짓 음성을 만듦 |
+| `pkill -f "<패턴>"`이 즉시 셸을 죽임 | 패턴이 pkill을 실행 중인 셸 자신의 명령행과 매칭됨 | 포트로 죽일 것: `fuser -k <port>/tcp` |
+| 로컬 Lighthouse 실행 후 리포에 `C:\Users\...` 폴더가 생김 | WSL에서 Chrome이 임시 프로필 경로를 잘못 해석해 cwd에 리터럴 폴더 생성 | `.gitignore`에 `C:*` 추가되어 있음. 커밋 전 `git status`로 항상 확인 |
+| CI 배포 실패: `Missing entry-point` | `wrangler-action`의 기본 wrangler(3.90)가 assets 전용 Worker 설정을 인식 못함 | `deploy.yml`에 `wranglerVersion: "4.112.0"` 고정되어 있음. 건드리지 말 것 |
+| Ask 페이지가 세로로 긴 화면에서 스크롤이 깨짐 | flex 자식의 기본 `min-height: auto`가 overflow를 무시함 | 스크롤 가능한 컨테이너에는 항상 `min-h-0` + `overflow-y-auto`를 함께 줄 것 |
+
+## 6. 비용/한도 모니터링
+
+- **NVIDIA Build API**: 기본 크레딧 소진형(요청 성격상 `pr_general` 라우트에서만 소모). [build.nvidia.com](https://build.nvidia.com)에서 잔여 크레딧 확인
+- **Workers AI**: 무료 일일 한도 존재. 초과 시 코드상 NVIDIA로 자동 폴백되므로 서비스는 끊기지 않음
+- **Turnstile + Durable Object**: 메시지당 단일 사용 토큰 + IP당 10회/분으로 남용 방지. 한도를 조정하려면 `apps/chat-worker/src/index.ts`의 `RATE_LIMIT_MAX_REQUESTS`/`RATE_LIMIT_WINDOW_MS`
+- 운영비는 설계상 0원/년 — 위 한도를 벗어나는 트래픽이 발생하면 먼저 원인(봇/크롤러)을 파악할 것, 유료 전환은 최후 수단
+
+## 7. 시크릿 목록
+
+| 이름 | 위치 | 용도 |
+|---|---|---|
+| `CLOUDFLARE_API_TOKEN` | GitHub Actions secret | CI 배포 |
+| `CLOUDFLARE_ACCOUNT_ID` | GitHub Actions secret | CI 배포 |
+| `NVIDIA_API_KEY` | `wrangler secret` (chat-worker) | NVIDIA Build API 인증 |
+| `TURNSTILE_SECRET` | `wrangler secret` (chat-worker) | Turnstile siteverify |
+
+로테이션 시: GitHub는 리포 Settings → Secrets, Worker는 해당 앱 디렉터리에서 `npx wrangler secret put <이름>`.
+
+## 8. 다음에 손댈 만한 것
+
+`PLAN.md`의 단계별 계획은 5단계(마감)까지 완료된 상태입니다. 후속 후보:
+
+- **콘텐츠**: K-DT / On-Device AI 프로젝트(ExecuTorch·llama.cpp·Sentis·TFLite) 결과물이 나오는 대로 `projects.json` + MDX로 추가 — 현재 사이트는 Unity 경력 중심이라 목표 직군과의 간극을 메울 필요
+- **브라우저 온디바이스 데모**: transformers.js(WebGPU)로 방문자 브라우저에서 소형 모델 추론을 직접 체험시키는 섹션
+- **RAG 전환**: 딥다이브가 10편 이상으로 늘어나면 `context.json` 단순 주입 대신 Supabase Vector 또는 Cloudflare Vectorize 검토
+- **다국어(i18n)**: 해외/외국계 지원 시점에

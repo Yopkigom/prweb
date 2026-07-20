@@ -75,3 +75,8 @@ cd apps/chat-worker && npm install && npm run dev
 
 배포는 main 브랜치 push 시 GitHub Actions가 자동 수행합니다.
 시크릿: `NVIDIA_API_KEY`, `TURNSTILE_SECRET` (wrangler secret) · `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` (GitHub Actions).
+
+## 더 읽을거리
+
+- [docs/PLAN.md](docs/PLAN.md) — 단계별 구현 계획과 운영 기록
+- [docs/MAINTENANCE.md](docs/MAINTENANCE.md) — 콘텐츠 수정, 배포 체크리스트, 알려진 함정 등 실무 유지보수 가이드
