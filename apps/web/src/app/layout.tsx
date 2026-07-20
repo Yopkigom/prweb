@@ -79,6 +79,11 @@ export default function RootLayout({
             © 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers
           </div>
         </footer>
+        <script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={'{"token": "4ada3b1e24384a51b9f898c339127d64"}'}
+        />
       </body>
     </html>
   );
