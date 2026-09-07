@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const dynamic = "force-static";
-export const alt = "Shin Hojeong — Unity & On-Device AI Engineer";
+export const alt = "Shin Hojeong — Unity, On-Device AI, Tech Lead";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -26,13 +26,13 @@ export default function OpenGraphImage() {
           SHIN HOJEONG
         </div>
         <div style={{ fontSize: 64, fontWeight: 700, marginTop: 20, lineHeight: 1.2 }}>
-          15 Years of Unity,
+          16 Years of Unity,
         </div>
         <div style={{ fontSize: 64, fontWeight: 700, lineHeight: 1.2 }}>
           Now Building On-Device AI
         </div>
         <div style={{ fontSize: 26, color: "#a1a1aa", marginTop: 32 }}>
-          ExecuTorch · llama.cpp · Unity Sentis · TensorFlow Lite
+          llama.cpp · ONNX · Unity Sentis · AI Product Tech Lead
         </div>
       </div>
     ),

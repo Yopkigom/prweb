@@ -22,6 +22,9 @@ export interface Project {
   metrics: ProjectMetric[];
   video?: string;
   diagram?: string;
+  // Public source repository, when one is allowed to be linked.
+  repo?: string;
+  // Key into content/index.ts; a missing key renders L1·L2 only.
   deepDive: string;
 }
 

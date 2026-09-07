@@ -1,12 +1,91 @@
 {
-  "$schema_note": "L1 = card (hook, tags), L2 = summary block (problem/role/outcome), L3 = MDX deep dive in content/projects/<slug>.mdx (source: docs/content-source/)",
+  "$schema_note": "L1 = card (hook, tags), L2 = summary block (problem/role/outcome), L3 = MDX deep dive in content/projects/<slug>.mdx (source: docs/content-source/). Facts mirror the master resume; never change a number here alone.",
   "projects": [
+    {
+      "slug": "ad-creative-generation",
+      "title": "브랜드 스타일 광고 소재 생성 서비스",
+      "hook": "제품 사진과 소구점으로 인스타그램 광고 소재를 만드는 생성 AI 서비스. 4인 팀의 테크리드 겸 AI 생성/서빙 담당",
+      "tags": ["Generative AI", "Tech Lead", "FastAPI", "OpenAPI", "Guardrail"],
+      "period": "2026.08",
+      "featured": true,
+      "summary": {
+        "problem": "제품 사진, 제품명, 소구점을 입력하면 인스타그램용 광고 소재(만화형 6칸 또는 단일 이미지)를 만드는 서비스입니다. 이미지 생성 전에 텍스트 시안을 먼저 보여 주고 지정한 부분만 교체하는 흐름이 필요했고, 광고 카피에 없는 수치나 최상급 표현이 섞이면 안 됐습니다.",
+        "role": "테크리드와 AI 생성/서빙을 겸했습니다. FastAPI 백엔드, 독립 배포 AI 엔진, React 프론트엔드를 OpenAPI 계약 하나로 결합하고 파이썬 import를 양방향 금지하는 모노레포를 설계해 GCP GPU VM에 docker compose로 배포했습니다. 만화형 컷별 생성과 3x2 합성, 광고 카피 가드레일을 직접 구현했고, 팀 커밋 165건으로 최다, ADR 19건을 작성했습니다.",
+        "outcome": "1번 칸을 레퍼런스로 나머지 5칸을 병렬 생성해 칸 크기 1152px 정확, 여백 0px를 확보했습니다(한 장에 6칸 방식은 1101 ~ 1142px, 여백 14 ~ 36px). 가드레일은 골든셋 26건 x on/off 대조와 실물 19세션에서 위반 0건, 카피 사실 일치율 on 1.0 / off 0.9268(LLM 채점자 1인, 사람 평가 미확인). 단일 광고형 생성 지연 p50 24.05초 / p95 27.05초. 로컬 이미지 모델(SDXL + IP-Adapter, FLUX, Qwen-Image)을 VRAM, 지연, 한글 렌더링 기준으로 실측해 외부 API 채택 근거를 남겼습니다."
+      },
+      "metrics": [
+        { "label": "카피 가드레일 위반", "value": "0건" },
+        { "label": "컷 정밀도", "value": "1152px · 여백 0px" },
+        { "label": "생성 지연 p50", "value": "24.05초" },
+        { "label": "팀 커밋 (최다)", "value": "165건" }
+      ],
+      "repo": "https://github.com/Codeit-AI10-Part4-3Team/AI10-Part4-3Team-Advanced-Project",
+      "deepDive": "ad-creative-generation"
+    },
+    {
+      "slug": "savers-disaster-evacuation",
+      "title": "SAVERS 재난 대피 안내 서비스",
+      "hook": "정부 특보를 받아 재난 취약계층에게 대피소와 경로, 행동지침을 웹푸시로 안내. 4인 팀 Tech Lead, 제8회 K-디지털 트레이닝 해커톤 장려상(고용노동부장관상)",
+      "tags": ["Tech Lead", "System Design", "OpenAPI", "ADR", "PWA"],
+      "period": "2026.08 ~ 2026.09",
+      "featured": true,
+      "summary": {
+        "problem": "특보 발령 시 재난 취약계층에게 대피소와 경로, 행동지침을 제때 전달하는 서비스입니다. 자체 위험 판정을 두지 않고 판정(정부), 계산(서비스), 전달(PWA) 3층 구조로 나눠 공식 특보를 앞지르지 않아야 했습니다. 구현 기간이 8일이고 중간에 인원이 줄어, 사람이 빠져도 저장소에 남는 규칙을 먼저 만들어야 했습니다.",
+        "role": "Tech Lead로 설계와 계약을 전담하고 구현 코드는 쓰지 않았습니다. 시스템 아키텍처와 모듈 간 HTTP 계약(openapi.yaml, 22회 개정)을 소유하고, 보호자 Q&A 검증기 규칙과 30분 폐루프 상태 전이 스펙을 작성했으며, 코드 프리즈를 선언했습니다. 결정 근거 등급(근거 / 조건부 / 비근거)을 AGENTS.md에 정의하고, 확정은 커밋된 회의록만, 구조 결정은 ADR만으로 하도록 저장소를 운영했습니다.",
+        "outcome": "본선 진출 20개 팀 중 장려상(고용노동부장관상, 2026.09.04)을 받았습니다. 최종보고서 A4 64쪽 본문과 Markdown을 PDF로 만드는 2패스 변환기를 작성하고 본선 기술 질의응답을 주도했습니다. 팀 커밋 128건으로 최다, 코드 에이전트 커밋 48건을 같은 규칙 아래 별도 운용했습니다."
+      },
+      "metrics": [
+        { "label": "수상", "value": "고용노동부장관상" },
+        { "label": "HTTP 계약 개정", "value": "22회" },
+        { "label": "최종보고서", "value": "A4 64쪽" },
+        { "label": "팀 커밋 (최다)", "value": "128건" }
+      ],
+      "repo": "https://github.com/team-savers/savers-project",
+      "deepDive": "savers-disaster-evacuation"
+    },
+    {
+      "slug": "model-quantization-ondevice",
+      "title": "양자화하면 빨라진다는 통념의 반증",
+      "hook": "의료영상 분류 모델을 FP32, INT8, ONNX 3종으로 변환해 같은 테스트셋에서 비교. INT8 3.64배 압축, ONNX 2.15배 단축, 위음성 0 유지",
+      "tags": ["PyTorch", "ONNX", "Quantization", "On-Device AI"],
+      "period": "2026",
+      "featured": true,
+      "summary": {
+        "problem": "의료영상 분류 모델(MobileNetV3-Large)을 단말에 올리려면 용량과 추론 지연을 줄여야 하지만, 의료 도메인에서는 위음성(놓친 환자)이 늘어나면 안 됩니다. accuracy 한 숫자가 아니라 무엇을 지킬지를 먼저 정해야 했습니다.",
+        "role": "PyTorch FP32, PTQ 정적 양자화 INT8, ONNX(opset 17) 3종 포맷으로 변환하고 같은 테스트셋에서 용량, CPU 단건 추론 지연, 예측 변화를 측정했습니다. 체크포인트 선택 기준을 accuracy 대신 위음성 최소화로 두어, val accuracy가 3.4%p 낮지만 FN 0인 쪽을 채택했습니다.",
+        "outcome": "INT8로 용량 16.24MB에서 4.47MB로 압축(3.64배), ONNX 변환으로 지연 20.20ms에서 9.40ms로 단축(2.15배). 양자화 후 예측 변화 26/624건이 전부 위양성 방향임을 확인해 Recall 1.0과 FN 0을 유지했습니다. ONNX(FP32)가 INT8보다 빠른 역전 현상을 측정하고 런타임 최적화 수준의 차이로 원인을 분해했습니다. 양자화의 확실한 이득은 용량이고, 속도는 런타임에 좌우된다는 결론입니다."
+      },
+      "metrics": [
+        { "label": "용량 압축 (INT8)", "value": "3.64배" },
+        { "label": "지연 단축 (ONNX)", "value": "2.15배" },
+        { "label": "위음성 (FN)", "value": "0 유지" }
+      ],
+      "deepDive": "model-quantization-ondevice"
+    },
+    {
+      "slug": "unity-ondevice-rag",
+      "title": "Unity 온디바이스 RAG 앱",
+      "hook": "llama.cpp를 C-ABI 래퍼로 Unity에 직접 통합해 Galaxy S25에서 문서 질의응답(RAG)을 돌리는 Android 앱",
+      "tags": ["llama.cpp", "Unity", "ONNX", "Android", "RAG"],
+      "period": "2026",
+      "featured": true,
+      "summary": {
+        "problem": "LLM과 임베딩 모델을 서버 없이 Android 단말 안에서 돌려 문서 질의응답을 하는 앱이 목표였습니다. 기존 Unity용 LLM 패키지가 쓰려던 모델 아키텍처를 지원하지 않아 런타임을 직접 붙여야 했고, 임베딩 모델 2.2GB와 IL2CPP AOT 제약이 걸림돌이었습니다.",
+        "role": "개인 프로젝트로 전 과정을 구현했습니다. llama.cpp를 C-ABI 래퍼와 P/Invoke로 Unity에 직접 통합하고 Android arm64로 빌드했으며, 토큰 스트리밍 콜백을 static으로 두어 IL2CPP AOT에 대응했습니다. KURE-v1 임베딩 모델을 ONNX FP16으로 변환하고 SentencePiece 토크나이저를 C#으로 포팅했습니다. LangGraph로 설계한 파이프라인을 C# 상태기계로 이식하고, 검색 점수 임계값 라우팅과 API 폴백, 골든 Q&A 자동 판정을 넣었습니다.",
+        "outcome": "임베딩 모델을 2.2GB에서 1.1GB로 경량화했고, Galaxy S25 실기기에서 검증했습니다."
+      },
+      "metrics": [
+        { "label": "임베딩 모델 용량", "value": "2.2GB → 1.1GB" },
+        { "label": "실기기 검증", "value": "Galaxy S25" }
+      ],
+      "deepDive": "unity-ondevice-rag"
+    },
     {
       "slug": "avatar-sequential-generation",
       "title": "아바타 순차 생성",
       "hook": "18개+ 부위 조합 아바타의 생성을 비동기화해, 10인 이상 그룹 콘텐츠에서도 평균 30fps+ 유지",
       "tags": ["Unity", "AssetBundle", "Async", "Optimization"],
-      "period": "Moii",
+      "period": "Moii · 2022 ~ 2025",
       "featured": true,
       "summary": {
         "problem": "아바타가 최소 18가지 개별 부위를 조합해 생성되는 구조라, 일반 fbx+아이템 방식 대비 리소스 로딩·정점 연산 비용이 급증해 화면 렌더링이 멈추는 현상이 발생했습니다.",
@@ -15,7 +94,8 @@
       },
       "metrics": [
         { "label": "평균 프레임", "value": "30fps+" },
-        { "label": "조합 부위 수", "value": "18+" }
+        { "label": "조합 부위 수", "value": "18+" },
+        { "label": "동시 참여", "value": "10인+" }
       ],
       "video": "https://youtu.be/Yco9RlBlzXs",
       "diagram": "https://www.figma.com/board/8ELaCKEIzunhdEfAZBkqxX/%EC%95%84%EB%B0%94%ED%83%80-%EC%88%9C%EC%B0%A8-%EC%83%9D%EC%84%B1%EB%8F%84?node-id=0-1&p=f&t=Y4TUY6qIqD77Vfhx-0",
@@ -24,14 +104,14 @@
     {
       "slug": "agora-double-buffer-recording",
       "title": "Agora 더블 버퍼링 기반 음성 녹음",
-      "hook": "렌더링 프레임을 지키면서 실시간 음성 전송·녹음·립싱크를 동시에 수행하는 더블 버퍼링 구조",
-      "tags": ["Unity", "Agora", "Multithreading", "Realtime"],
-      "period": "Moii",
+      "hook": "렌더링 프레임을 지키면서 실시간 음성 전송·녹음·립싱크를 동시에 수행하는 더블 버퍼링 구조. 실시간 오디오를 AI 모델 입력으로 잇는 축의 시작점",
+      "tags": ["Unity", "Agora", "Multithreading", "Realtime Audio"],
+      "period": "Moii · 2022 ~ 2025",
       "featured": true,
       "summary": {
         "problem": "Agora 음성 공유를 실시간 녹음하는 기능이 필요했지만, 제공 API를 그대로 사용하면 심각한 성능 저하가 발생해 실시간 대화에 지장을 주었습니다.",
         "role": "API 문서 분석과 Agora 기술지원팀 협의로 스펙을 확정하고, 더블 버퍼링 기반 버퍼 전달 구조를 설계·구현했습니다.",
-        "outcome": "프레임을 유지하면서 다중 사용자 음성 전송과 녹음, 아바타 립싱크를 동시에 수행할 수 있게 되었습니다. Unity MainThread의 제한된 연산 자원에 맞는 멀티스레드 최적화 전략을 정립했습니다."
+        "outcome": "프레임을 유지하면서 다중 사용자 음성 전송과 녹음, 아바타 립싱크를 동시에 수행할 수 있게 되었습니다. Unity MainThread의 제한된 연산 자원에 맞는 멀티스레드 최적화 전략을 정립했고, 이 경험은 이후 디지털치료기기의 실시간 음성 녹음 모듈(청크 녹음, dB 측정, 파형 출력)을 음성 분석 모델 입력단으로 만드는 작업으로 이어졌습니다."
       },
       "metrics": [],
       "video": "https://www.youtube.com/embed/t_vcZU3ZO-0",
@@ -39,21 +119,41 @@
       "deepDive": "agora-double-buffer-recording"
     },
     {
+      "slug": "ask-ai-behind-the-scenes",
+      "title": "이 사이트의 Ask AI는 어떻게 만들어졌나",
+      "hook": "Workers AI 1차 + NVIDIA 폴백, 엣지 제약 하의 챗봇 설계기. 운영비 0원, 응답 약 0.6초",
+      "tags": ["Cloudflare Workers", "LLM Routing", "Edge"],
+      "period": "2026 ~ 운영 중",
+      "featured": false,
+      "summary": {
+        "problem": "예산 0원 제약(크레딧 소진형 API, RPM 한도, 무료 일일 한도) 아래에서 항상 살아있는 챗봇이 필요했습니다.",
+        "role": "라우팅 설계부터 남용 방지, 스트리밍, CI/CD까지 전체 설계·구현을 담당했습니다. Next.js static export와 Cloudflare Workers로 구축하고, Turnstile과 Durable Objects rate limit, GitHub Actions로 lint, build, E2E, deploy를 자동화했습니다.",
+        "outcome": "질문 성격별 3경로 라우팅으로 크레딧 소모를 최소화하고, Turnstile + Durable Object rate limit + 폴백 체인으로 운영비 0원 상태의 무중단 챗봇을 완성했습니다. Lighthouse 접근성 100, 성능 97 ~ 100, SEO 100."
+      },
+      "metrics": [
+        { "label": "Lighthouse 접근성 / SEO", "value": "100 / 100" },
+        { "label": "챗봇 응답 (엣지 실측)", "value": "약 0.6초" },
+        { "label": "연간 운영비", "value": "0원" }
+      ],
+      "deepDive": "ask-ai-behind-the-scenes"
+    },
+    {
       "slug": "team-lead-retrospective",
       "title": "팀장 달아도, 성장은 계속된다",
       "hook": "개발 4명으로 시작해 4개월 만에 Prototype, 1년 만에 Open Beta — 문제 해결 관점의 팀장 회고",
       "tags": ["Leadership", "Architecture", "RDD/MVP"],
-      "period": "3년",
-      "featured": true,
+      "period": "3년 4개월",
+      "featured": false,
       "summary": {
         "problem": "서비스 로직과 기능 구현이 엉켜 재사용·확장이 어려운 레거시 코드와 소수 개발 인력(4명)으로 신규 서비스를 만들어야 했습니다.",
         "role": "RDD 기반 MVP 패턴 방법론 정의, 공용 라이브러리(직렬화·통신·암호화·압축) 구축, 프로젝트 구조 분리를 경영진에 제안·적용하고, 주니어 교육과 칸반 운영, AssetBundle 시스템 구축을 담당했습니다.",
-        "outcome": "4개월 만에 팀 인프라와 Prototype을 완성하고, 초기와 동일한 인원으로 1년 만에 Open Beta를 출시했습니다. 이후 서비스 안정화와 콘텐츠 확장(음성 녹음, 아바타 순차 생성)으로 이어갔습니다."
+        "outcome": "4개월 만에 팀 인프라와 Prototype을 완성하고, 초기와 동일한 인원으로 1년 만에 Open Beta를 출시했습니다. 이후 서비스 안정화와 콘텐츠 확장(음성 녹음, 아바타 순차 생성)으로 이어갔고, 누적 다운로드 30만, 사용자 평점 4.7, 주요 업데이트 12회로 남았습니다."
       },
       "metrics": [
         { "label": "Prototype", "value": "4개월" },
         { "label": "Open Beta", "value": "1년" },
-        { "label": "개발 인원", "value": "4명" }
+        { "label": "개발 인원", "value": "4명" },
+        { "label": "누적 다운로드", "value": "30만" }
       ],
       "deepDive": "team-lead-retrospective"
     },
@@ -86,21 +186,6 @@
       },
       "metrics": [],
       "deepDive": "coding-style"
-    },
-    {
-      "slug": "ask-ai-behind-the-scenes",
-      "title": "이 사이트의 Ask AI는 어떻게 만들어졌나",
-      "hook": "Workers AI 1차 + NVIDIA 폴백, 엣지 제약 하의 챗봇 설계기",
-      "tags": ["Cloudflare Workers", "LLM Routing", "Edge"],
-      "period": "2026",
-      "featured": false,
-      "summary": {
-        "problem": "예산 0원 제약(크레딧 소진형 API, RPM 한도, 무료 일일 한도) 아래에서 항상 살아있는 챗봇이 필요했습니다.",
-        "role": "라우팅 설계부터 남용 방지, 스트리밍, CI/CD까지 전체 설계·구현을 담당했습니다.",
-        "outcome": "질문 성격별 3경로 라우팅으로 크레딧 소모를 최소화하고, Turnstile + Durable Object rate limit + 폴백 체인으로 운영비 0원 상태의 무중단 챗봇을 완성했습니다."
-      },
-      "metrics": [],
-      "deepDive": "ask-ai-behind-the-scenes"
     }
   ]
 }

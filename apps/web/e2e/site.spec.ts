@@ -15,7 +15,8 @@ test.describe("navigation", () => {
 
     await page.getByRole("link", { name: "About" }).click();
     await expect(page).toHaveURL(/\/about\/$/);
-    await expect(page.getByText("직무 특허")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "특허" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "경력" })).toBeVisible();
 
     await page.getByRole("link", { name: "Ask AI" }).click();
     await expect(page).toHaveURL(/\/ask\/$/);
@@ -28,6 +29,14 @@ test.describe("navigation", () => {
     await expect(page.getByRole("heading", { name: "문제" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "역할" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Technical Deep Dive" })).toBeVisible();
+  });
+
+  test("project without a deep dive renders L2 only, with repo link when present", async ({ page }) => {
+    await page.goto("/projects/savers-disaster-evacuation/");
+    await expect(page.getByRole("heading", { name: "문제" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "성과" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "GitHub 저장소" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Technical Deep Dive" })).toHaveCount(0);
   });
 
   test("unknown route renders the 404 page", async ({ page }) => {

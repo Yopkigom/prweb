@@ -9,17 +9,17 @@ export default function HomePage() {
       {/* L1: one-line positioning, readable in 10 seconds */}
       <section className="space-y-4 pt-8">
         <p className="text-sm font-medium text-zinc-500">
-          저는 신호정입니다. 그리고 프로그래머입니다.
+          신호정 · Unity 실시간 클라이언트 16년, AI 제품 개발 리드
         </p>
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          15년 실서비스 경험으로
+          실시간 클라이언트를 16년 만들었고,
           <br />
-          On-Device AI를 만듭니다
+          이제 AI를 그 안에서 돌아가게 만듭니다
         </h1>
         <p className="max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
-          Unity 멀티플랫폼 개발 15년, 팀 리딩 경험, 그리고 ExecuTorch ·
-          llama.cpp · Unity Sentis · TensorFlow Lite로 이어지는 엣지 AI
-          엔지니어링.
+          소셜 아바타 앱 개발팀장 3년 4개월(누적 다운로드 30만, 평점 4.7).
+          llama.cpp · ONNX · Unity Sentis로 이어지는 온디바이스 AI와, 두 팀을
+          동시에 이끌어 고용노동부장관상을 받은 AI 제품 테크리드 경험.
         </p>
         <div className="flex gap-3 pt-2">
           <Link
@@ -27,6 +27,12 @@ export default function HomePage() {
             className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300 transition-colors"
           >
             프로젝트 보기
+          </Link>
+          <Link
+            href="/about/"
+            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition-colors"
+          >
+            경력 · 특허 · 수상
           </Link>
           <Link
             href="/ask/"
@@ -52,7 +58,7 @@ export default function HomePage() {
               <h3 className="font-semibold group-hover:underline">
                 {project.title}
               </h3>
-              <p className="mt-2 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">
+              <p className="mt-2 line-clamp-3 text-sm text-zinc-600 dark:text-zinc-400">
                 {project.hook}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">

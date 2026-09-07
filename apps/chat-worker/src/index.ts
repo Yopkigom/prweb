@@ -44,7 +44,8 @@ const FALLBACK_ANSWER =
   "프로젝트 페이지에서 직접 내용을 확인해주세요.";
 
 const OFF_LIMITS_ANSWER =
-  "개인 신상에 대한 상세한 질문에는 답변드리지 않습니다. " +
+  "개인 신상이나 연봉·처우에 대한 질문에는 답변드리지 않습니다. " +
+  "필요하시면 seenjeonga@gmail.com으로 문의해 주세요. " +
   "경력, 프로젝트, 기술 스택에 대해서는 무엇이든 물어보세요.";
 
 const encoder = new TextEncoder();
@@ -78,7 +79,10 @@ function buildSystemPrompt(): string {
     "You are the portfolio assistant for the developer described below.",
     "Answer in Korean unless asked otherwise. Be concise and factual.",
     "Never invent facts that are not in the profile.",
-    "Politely decline detailed personal/private questions.",
+    "Values in `immutable_facts` override anything else; quote them exactly.",
+    "When a question matches a topic in `scripted_answers`, answer with that",
+    "text almost verbatim. Light rephrasing is fine; new claims are not.",
+    "Follow every rule in `policies`. Politely decline what they forbid.",
     "",
     "## Profile",
     JSON.stringify(profile, null, 2),
@@ -141,9 +145,12 @@ async function verifyTurnstile(
 async function classifyQuestion(env: Env, question: string): Promise<RouteLabel> {
   const prompt = [
     "Classify the user question into exactly one label:",
-    "- portfolio: about the developer's career, projects, skills, or this site",
+    "- portfolio: about the developer's career history (including tenure,",
+    "  job changes, reasons for leaving), projects, skills, education, awards,",
+    "  patents, or this site",
     "- pr_general: general tech/industry/opinion question a recruiter might ask",
-    "- off_limits: probing personal/private details (address, family, salary, etc.)",
+    "- off_limits: probing private details (age, address, family, phone,",
+    "  salary or compensation, health, etc.)",
     "Respond with the label only.",
     "",
     `Question: ${question}`,

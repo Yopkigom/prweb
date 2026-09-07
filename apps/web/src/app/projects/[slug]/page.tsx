@@ -7,6 +7,9 @@ interface ProjectPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const LINK_BUTTON_CLASS =
+  "rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition-colors";
+
 export function generateStaticParams() {
   return getAllProjects().map((project) => ({ slug: project.slug }));
 }
@@ -27,6 +30,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
+  const hasLinks =
+    project.video !== undefined ||
+    project.diagram !== undefined ||
+    project.repo !== undefined;
+
   return (
     <article className="mx-auto max-w-3xl space-y-12">
       {/* L2: problem / role / outcome — the recruiter-facing layer */}
@@ -35,6 +43,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <p className="text-lg text-zinc-600 dark:text-zinc-400">
           {project.hook}
         </p>
+        {project.period !== "" && (
+          <p className="text-sm text-zinc-500">{project.period}</p>
+        )}
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
             <span
@@ -73,14 +84,24 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </section>
       )}
 
-      {(project.video !== undefined || project.diagram !== undefined) && (
+      {hasLinks && (
         <section className="flex flex-wrap gap-3">
+          {project.repo !== undefined && (
+            <a
+              href={project.repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={LINK_BUTTON_CLASS}
+            >
+              GitHub 저장소
+            </a>
+          )}
           {project.video !== undefined && (
             <a
               href={project.video}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition-colors"
+              className={LINK_BUTTON_CLASS}
             >
               ▶ 시연 영상
             </a>
@@ -90,7 +111,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               href={project.diagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 transition-colors"
+              className={LINK_BUTTON_CLASS}
             >
               워크 다이어그램 (Figma)
             </a>

@@ -40,7 +40,9 @@
 2. `apps/web/src/content/index.ts`에 import + `deepDives` 맵 등록
 3. `projects.json`에 해당 프로젝트가 없다면 항목 추가, `deepDive` 필드를 slug와 일치시킬 것
 
-새 프로젝트를 완전히 추가하는 순서: ① `projects.json`에 항목 추가 → ② `.mdx` 작성 → ③ `content/index.ts`에 등록 → ④ `npm run build`로 정적 생성 확인 → ⑤ `npm run test:e2e`로 회귀 확인.
+새 프로젝트를 완전히 추가하는 순서: ① `projects.json`에 항목 추가 → ② `.mdx` 작성 → ③ `content/index.ts`에 등록 → ④ `npm run build`로 정적 생성 확인 → ⑤ `npm run test:e2e`로 회귀 확인 → **⑥ `apps/chat-worker/src/context.json`에 같은 프로젝트를 추가**(누락 시 챗봇이 신규 프로젝트를 모른다).
+
+`.mdx`가 아직 없는 프로젝트는 `deepDive` 값을 slug로 두되 `content/index.ts`에 등록하지 않으면 L1·L2만 렌더링된다. 공개 저장소가 있으면 `repo` 필드에 URL을 넣는다(상세 페이지에 "GitHub 저장소" 버튼).
 
 YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 쓸 것 (서드파티 쿠키 이슈 완화, Lighthouse best-practices 감점 방지).
 
@@ -133,11 +135,13 @@ CHROME_PATH=$(find ~/.cache/ms-playwright -name chrome -type f | head -1) \
 
 로테이션 시: GitHub는 리포 Settings → Secrets, Worker는 해당 앱 디렉터리에서 `npx wrangler secret put <이름>`.
 
-## 8. 다음에 손댈 만한 것
+## 8. 로드맵
 
-`PLAN.md`의 단계별 계획은 5단계(마감)까지 완료된 상태입니다. 후속 후보:
+`PLAN.md`의 단계별 계획은 5단계(마감)까지 완료됐고, 2026-09에 콘텐츠를 마스터 이력서 기준으로 재정렬했습니다(About 리라이트, AI 제품·온디바이스 프로젝트 카드 4건 추가, 챗봇 컨텍스트 재작성, 특허 링크를 등록번호 기준으로 교체). 후속 후보:
 
-- **콘텐츠**: K-DT / On-Device AI 프로젝트(ExecuTorch·llama.cpp·Sentis·TFLite) 결과물이 나오는 대로 `projects.json` + MDX로 추가 — 현재 사이트는 Unity 경력 중심이라 목표 직군과의 간극을 메울 필요
+- **딥다이브(L3) 보강**: 2026-09에 추가한 4건(광고 소재 생성, SAVERS, Unity 온디바이스 RAG, 모델 경량화)은 현재 L1·L2만 있음. 순서는 모델 경량화 → 광고 소재 생성 → SAVERS → RAG(실측 수치 정리 후)
+- **개발 운영 체계 에세이**: 개인 프로젝트의 계획 게이트(`CLAUDE.md` + `PROJECT_PLAN.md`)와 두 팀의 `AGENTS.md` 근거 등급 운영을 한 편으로
+- **Projects 그룹 재편**: `category` 필드 + 목록 컴포넌트 (On-Device / AI Product / Realtime Audio / Production Unity / Engineering Notes)
 - **브라우저 온디바이스 데모**: transformers.js(WebGPU)로 방문자 브라우저에서 소형 모델 추론을 직접 체험시키는 섹션
 - **RAG 전환**: 딥다이브가 10편 이상으로 늘어나면 `context.json` 단순 주입 대신 Supabase Vector 또는 Cloudflare Vectorize 검토
 - **다국어(i18n)**: 해외/외국계 지원 시점에
