@@ -48,7 +48,7 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 
 ### 챗봇이 아는 내용 갱신
 
-`apps/chat-worker/src/context.json`을 편집하고 재배포. 이 파일 전체가 시스템 프롬프트에 그대로 주입되므로, 사실관계가 바뀌면(이직, 새 프로젝트 등) 반드시 이 파일도 함께 갱신해야 챗봇이 최신 정보로 답합니다.
+`apps/chat-worker/src/context.json`을 편집하고 재배포. 이 파일 전체가 시스템 프롬프트에 그대로 주입되므로, 사실관계가 바뀌면(이직, 새 프로젝트 등) 반드시 이 파일도 함께 갱신해야 챗봇이 최신 정보로 답합니다. **길이 주의**: 렌더링된 프롬프트가 약 7K자를 넘으면 70B fp8 모델이 무의미한 텍스트를 뱉는다(5절 참고). 항목을 추가하면 다른 항목을 줄인다.
 
 ### 홈 시연 영상
 
@@ -120,6 +120,7 @@ CHROME_PATH=$(find ~/.cache/ms-playwright -name chrome -type f | head -1) \
 | 로컬 Lighthouse 실행 후 리포에 `C:\Users\...` 폴더가 생김 | WSL에서 Chrome이 임시 프로필 경로를 잘못 해석해 cwd에 리터럴 폴더 생성 | `.gitignore`에 `C:*` 추가되어 있음. 커밋 전 `git status`로 항상 확인 |
 | CI 배포 실패: `Missing entry-point` | `wrangler-action`의 기본 wrangler(3.90)가 assets 전용 Worker 설정을 인식 못함 | `deploy.yml`에 `wranglerVersion: "4.112.0"` 고정되어 있음. 건드리지 말 것 |
 | Ask 페이지가 세로로 긴 화면에서 스크롤이 깨짐 | flex 자식의 기본 `min-height: auto`가 overflow를 무시함 | 스크롤 가능한 컨테이너에는 항상 `min-h-0` + `overflow-y-auto`를 함께 줄 것 |
+| 챗봇이 영어 단어 뭉치(무의미 텍스트)를 반복 출력 | 시스템 프롬프트가 너무 길어짐(2026-09-07, `context.json` 20KB 들여쓰기 JSON 주입 시 Workers AI 70B fp8-fast가 출력 붕괴) | `context.json`은 렌더링 결과 **약 7K자 이하**로 유지. `index.ts`의 `renderProfile`이 JSON 대신 압축 텍스트로 주입하며, 프로필을 늘릴 때는 같은 함수로 길이를 먼저 잰다 |
 
 ## 6. 비용/한도 모니터링
 

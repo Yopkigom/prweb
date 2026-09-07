@@ -74,18 +74,50 @@ export class RateLimiterDO extends DurableObject {
   }
 }
 
+// Renders the profile as compact text. Pretty-printed JSON pushed the
+// system prompt past ~20KB and the 70B fp8 model degenerated into
+// gibberish (2026-09-07); plain text keeps the token count low.
+function renderProfile(value: unknown, depth = 0): string {
+  const indent = "  ".repeat(depth);
+  if (Array.isArray(value)) {
+    return value
+      .map((item) =>
+        typeof item === "object" && item !== null
+          ? `${indent}-
+${renderProfile(item, depth + 1)}`
+          : `${indent}- ${String(item)}`
+      )
+      .join("\n");
+  }
+  if (typeof value === "object" && value !== null) {
+    return Object.entries(value as Record<string, unknown>)
+      .filter(([key]) => !key.startsWith("_"))
+      .map(([key, entry]) => {
+        if (typeof entry === "object" && entry !== null) {
+          const heading = depth === 0 ? `\n## ${key}` : `${indent}${key}:`;
+          return `${heading}\n${renderProfile(entry, depth + 1)}`;
+        }
+        return `${indent}${key}: ${String(entry)}`;
+      })
+      .join("\n");
+  }
+  return `${indent}${String(value)}`;
+}
+
+const PROFILE_TEXT = renderProfile(profile);
+
 function buildSystemPrompt(): string {
   return [
     "You are the portfolio assistant for the developer described below.",
     "Answer in Korean unless asked otherwise. Be concise and factual.",
     "Never invent facts that are not in the profile.",
-    "Values in `immutable_facts` override anything else; quote them exactly.",
-    "When a question matches a topic in `scripted_answers`, answer with that",
+    "Values under `immutable_facts` override anything else; quote them exactly.",
+    "When a question matches a topic under `scripted_answers`, answer with that",
     "text almost verbatim. Light rephrasing is fine; new claims are not.",
-    "Follow every rule in `policies`. Politely decline what they forbid.",
+    "Follow every rule under `policies`. Politely decline what they forbid.",
     "",
-    "## Profile",
-    JSON.stringify(profile, null, 2),
+    "# Profile",
+    PROFILE_TEXT,
   ].join("\n");
 }
 
@@ -266,7 +298,7 @@ async function streamWorkersAi(
 ): Promise<ReadableStream<Uint8Array>> {
   const upstream = (await env.AI.run(WORKERS_AI_CHAT_MODEL, {
     messages: [{ role: "system", content: buildSystemPrompt() }, ...messages],
-    max_tokens: 1024,
+    max_tokens: 800,
     stream: true,
   })) as ReadableStream<Uint8Array>;
 
@@ -292,7 +324,7 @@ async function streamNvidia(
     body: JSON.stringify({
       model: NVIDIA_MODEL,
       messages: [{ role: "system", content: buildSystemPrompt() }, ...messages],
-      max_tokens: 1024,
+      max_tokens: 800,
       temperature: 0.5,
       stream: true,
     }),
