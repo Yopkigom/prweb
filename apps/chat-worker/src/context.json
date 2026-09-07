@@ -143,6 +143,10 @@
     "no_team_member_names": "팀 프로젝트의 팀원 실명과 인원 변동 사정은 말하지 않는다."
   },
   "links": {
+    "demo_videos": [
+      "챗봇 애플리케이션 구현을 통한 온디바이스 환경의 이해 (Unity 온디바이스 RAG 앱, Galaxy S25): https://www.youtube.com/watch?v=E51utCQPQYk",
+      "감성 분석 모델의 쇼핑몰 리뷰 분석 모바일 앱 구동 (ONNX → Unity Sentis → Android): https://www.youtube.com/watch?v=OvK0o6xK6CE"
+    ],
     "site": "https://prweb.yopkigom.workers.dev",
     "github": "https://github.com/Yopkigom",
     "email": "seenjeonga@gmail.com"

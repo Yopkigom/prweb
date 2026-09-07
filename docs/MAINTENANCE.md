@@ -50,6 +50,10 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 
 `apps/chat-worker/src/context.json`을 편집하고 재배포. 이 파일 전체가 시스템 프롬프트에 그대로 주입되므로, 사실관계가 바뀌면(이직, 새 프로젝트 등) 반드시 이 파일도 함께 갱신해야 챗봇이 최신 정보로 답합니다.
 
+### 홈 시연 영상
+
+`apps/web/src/app/page.tsx`의 `DEMO_VIDEOS` 배열(YouTube ID·제목·설명·연결 프로젝트 slug). 임베드는 `youtube-nocookie.com`. 같은 영상을 프로젝트 카드의 `video` 필드와 `chat-worker/src/context.json`의 `links.demo_videos`에도 함께 넣는다.
+
 ### About / 연락처
 
 `apps/web/src/app/about/page.tsx`, 푸터는 `apps/web/src/app/layout.tsx`.

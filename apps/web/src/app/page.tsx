@@ -1,6 +1,25 @@
 import Link from "next/link";
 import { getFeaturedProjects } from "../lib/projects";
 
+// Demo videos shown under Featured Projects. Embed via youtube-nocookie
+// (see docs/MAINTENANCE.md). Keep captions in sync with projects.json.
+const DEMO_VIDEOS = [
+  {
+    id: "E51utCQPQYk",
+    title: "챗봇 애플리케이션 구현을 통한 온디바이스 환경의 이해",
+    caption:
+      "llama.cpp를 Unity에 직접 통합한 문서 질의응답(RAG) 앱. Galaxy S25 실기기 구동",
+    projectSlug: "unity-ondevice-rag",
+  },
+  {
+    id: "OvK0o6xK6CE",
+    title: "감성 분석 모델의 쇼핑몰 리뷰 분석 모바일 앱 구동",
+    caption:
+      "감성 분류 모델을 ONNX로 변환해 Unity Sentis로 Android에서 서빙",
+    projectSlug: undefined,
+  },
+] as const;
+
 export default function HomePage() {
   const featured = getFeaturedProjects();
 
@@ -72,6 +91,45 @@ export default function HomePage() {
                 ))}
               </div>
             </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* On-device demo videos: real devices, not slides */}
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold tracking-tight">시연 영상</h2>
+        <div className="grid gap-8 sm:grid-cols-2">
+          {DEMO_VIDEOS.map((video) => (
+            <figure key={video.id} className="space-y-3">
+              <div className="aspect-video overflow-hidden rounded-xl border border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900">
+                <iframe
+                  className="h-full w-full"
+                  src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                  title={video.title}
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+              <figcaption className="space-y-1">
+                <h3 className="font-semibold">{video.title}</h3>
+                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                  {video.caption}
+                  {video.projectSlug !== undefined && (
+                    <>
+                      {" · "}
+                      <Link
+                        href={`/projects/${video.projectSlug}/`}
+                        className="underline underline-offset-4 hover:text-zinc-900 dark:hover:text-zinc-100"
+                      >
+                        프로젝트 상세 보기
+                      </Link>
+                    </>
+                  )}
+                </p>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </section>

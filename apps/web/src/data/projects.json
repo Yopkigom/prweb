@@ -78,6 +78,7 @@
         { "label": "임베딩 모델 용량", "value": "2.2GB → 1.1GB" },
         { "label": "실기기 검증", "value": "Galaxy S25" }
       ],
+      "video": "https://www.youtube.com/watch?v=E51utCQPQYk",
       "deepDive": "unity-ondevice-rag"
     },
     {

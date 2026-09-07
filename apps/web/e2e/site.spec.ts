@@ -39,6 +39,12 @@ test.describe("navigation", () => {
     await expect(page.getByRole("heading", { name: "Technical Deep Dive" })).toHaveCount(0);
   });
 
+  test("home shows the demo video section with two embeds", async ({ page }) => {
+    await page.goto("/");
+    await expect(page.getByRole("heading", { name: "시연 영상" })).toBeVisible();
+    await expect(page.locator("iframe[src*=\"youtube-nocookie.com/embed/\"]")).toHaveCount(2);
+  });
+
   test("unknown route renders the 404 page", async ({ page }) => {
     const response = await page.goto("/no-such-page/");
     expect(response?.status()).toBe(404);
