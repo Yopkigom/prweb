@@ -65,7 +65,7 @@ export default function HomePage() {
       {/* L1: featured project cards */}
       <section className="space-y-6">
         <h2 className="text-xl font-semibold tracking-tight">
-          Featured Projects
+          Projects
         </h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((project) => (

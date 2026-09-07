@@ -45,6 +45,19 @@ test.describe("navigation", () => {
     await expect(page.locator("iframe[src*=\"youtube-nocookie.com/embed/\"]")).toHaveCount(2);
   });
 
+  test("header fits a phone viewport without horizontal overflow", async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto("/");
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
+    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
+    const brand = page.getByRole("link", { name: "신호정" }).first();
+    const box = await brand.boundingBox();
+    // One text line plus p-2 padding is ~40px; a wrapped brand is 80px+.
+    expect(box?.height ?? 0).toBeLessThan(60);
+    await expect(page.getByRole("radio", { name: "Dark" })).toBeVisible();
+  });
+
   test("unknown route renders the 404 page", async ({ page }) => {
     const response = await page.goto("/no-such-page/");
     expect(response?.status()).toBe(404);

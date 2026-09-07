@@ -158,7 +158,17 @@ export default function AboutPage() {
         </p>
       </header>
 
-      <section className="space-y-4 leading-relaxed text-zinc-700 dark:text-zinc-300">
+      <section className={SECTION_CLASS}>
+        <h2 className="text-xl font-semibold tracking-tight">요약</h2>
+        <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed">
+          {SUMMARY.map((line) => (
+            <li key={line}>{line}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={`${SECTION_CLASS} leading-relaxed text-zinc-700 dark:text-zinc-300`}>
+        <h2 className="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">자기소개</h2>
         <p>
           16년 동안 제한된 단말에서 실시간을 지키는 일을 해 왔습니다. 캐주얼
           게임과 리듬 게임에서 시작해 소셜 아바타 앱과 VR 디지털치료기기까지,
@@ -182,15 +192,6 @@ export default function AboutPage() {
           절차를 팀이 반복할 수 있게 하는 일. 이 두 가지를 함께 쓸 수 있는
           자리에서 일하고 싶습니다.
         </p>
-      </section>
-
-      <section className={SECTION_CLASS}>
-        <h2 className="text-xl font-semibold tracking-tight">요약</h2>
-        <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed">
-          {SUMMARY.map((line) => (
-            <li key={line}>{line}</li>
-          ))}
-        </ul>
       </section>
 
       <section className={SECTION_CLASS}>

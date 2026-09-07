@@ -57,15 +57,15 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <header className="sticky top-0 z-10 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur">
-            <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+            <nav className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
               <Link
                 href="/"
-                className="-m-2 p-2 font-semibold tracking-tight"
+                className="-m-2 shrink-0 whitespace-nowrap p-2 font-semibold tracking-tight"
               >
                 신호정
               </Link>
-              <div className="flex items-center gap-6">
-                <ul className="flex gap-6 text-sm text-zinc-600 dark:text-zinc-400">
+              <div className="flex items-center gap-3 sm:gap-6">
+                <ul className="flex gap-3 whitespace-nowrap text-sm text-zinc-600 sm:gap-6 dark:text-zinc-400">
                   {NAV_ITEMS.map((item) => (
                     <li key={item.href}>
                       <Link
