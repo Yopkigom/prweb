@@ -85,6 +85,10 @@
       "summary": "llama.cpp를 C-ABI 래퍼와 P/Invoke로 Unity에 직접 통합. Android arm64 빌드, IL2CPP AOT 대응(static 콜백). KURE-v1 임베딩 모델을 ONNX FP16으로 변환해 2.2GB에서 1.1GB로 경량화, SentencePiece 토크나이저를 C#으로 포팅. LangGraph 설계를 C# 상태기계로 이식, 검색 점수 임계값 라우팅과 API 폴백, 골든 Q&A 자동 판정. Galaxy S25 실기기 검증."
     },
     {
+      "title": "온디바이스 감성 분석 Android 앱 (2026)",
+      "summary": "쇼핑몰 리뷰 감성 분류를 서버 없이 단말에서 수행. 모델 선정 기준을 용량, 정확도, 처리 속도 순으로 두고 KcELECTRA-small과 KoMiniLM 2종을 freeze / full fine-tune 두 방식으로 학습해 체크포인트 4조합 비교. 최종 모델을 ONNX(64MB)로 변환해 Unity 6.3 LTS + Unity Sentis로 Android APK 서빙, 실기기 구동 시연 영상 있음. 정확도·지연·APK 용량 실측값은 공개된 것이 없으므로 수치를 말하지 않는다."
+    },
+    {
       "title": "AI 모델 경량화, 온디바이스 배포 (2026)",
       "summary": "의료영상 분류 모델(MobileNetV3-Large)의 3종 포맷 변환 및 배포 적합성 평가. PTQ 정적 양자화(INT8)로 용량 16.24MB에서 4.47MB로 압축(3.64배), ONNX(opset 17) 변환으로 CPU 단건 추론 지연 20.20ms에서 9.40ms로 단축(2.15배). 의료 도메인 원칙에 따라 accuracy 대신 위음성(FN) 최소화를 선택 기준으로 삼아 val accuracy가 3.4%p 낮지만 FN 0인 체크포인트를 채택. 양자화 후 예측 변화 26/624건이 전부 위양성 방향임을 확인해 Recall 1.0과 FN 0 유지 검증. ONNX가 INT8보다 빠른 역전 현상을 측정하고 런타임 최적화 차이로 원인 분해."
     },

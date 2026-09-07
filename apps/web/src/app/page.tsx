@@ -16,7 +16,7 @@ const DEMO_VIDEOS = [
     title: "감성 분석 모델의 쇼핑몰 리뷰 분석 모바일 앱 구동",
     caption:
       "감성 분류 모델을 ONNX로 변환해 Unity Sentis로 Android에서 서빙",
-    projectSlug: undefined,
+    projectSlug: "ondevice-sentiment-analysis",
   },
 ] as const;
 
@@ -31,9 +31,7 @@ export default function HomePage() {
           신호정 · Unity 실시간 클라이언트 16년, AI 제품 개발 리드
         </p>
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          실시간 클라이언트를 16년 만들었고,
-          <br />
-          이제 AI를 그 안에서 돌아가게 만듭니다
+          Unity 16년, 멀티플랫폼 AI를 주도합니다
         </h1>
         <p className="max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
           소셜 아바타 앱 개발팀장 3년 4개월(누적 다운로드 30만, 평점 4.7).

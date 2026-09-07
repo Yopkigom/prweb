@@ -82,6 +82,25 @@
       "deepDive": "unity-ondevice-rag"
     },
     {
+      "slug": "ondevice-sentiment-analysis",
+      "title": "온디바이스 감성 분석 Android 앱",
+      "hook": "쇼핑몰 리뷰 감성 분류 모델을 ONNX로 변환해 Unity Sentis로 Android에서 서빙. 모델 선정 기준은 용량, 정확도, 처리 속도 순",
+      "tags": ["Unity Sentis", "ONNX", "NLP", "Android"],
+      "period": "2026",
+      "featured": false,
+      "summary": {
+        "problem": "쇼핑몰 리뷰의 감성을 서버 없이 단말에서 분류하는 파이프라인이 목표였습니다. 온디바이스에서는 정확도보다 용량과 처리 속도가 먼저 제약이 되므로, 모델 선정 기준을 용량, 정확도, 처리 속도 순으로 두어야 했습니다.",
+        "role": "HuggingFace 직접 탐색 결과 8,985건을 부적합으로 판단하고 웹 검색과 AI 서포트로 KcELECTRA-small과 KoMiniLM 2종을 선발했습니다. 각 모델을 freeze와 full fine-tune 두 방식으로 학습해 체크포인트 4조합을 비교하고, 최종 모델을 ONNX로 변환한 뒤 Unity 6.3 LTS와 Unity Sentis 환경을 구축해 Android APK로 서빙했습니다.",
+        "outcome": "Android 실기기에서 리뷰 텍스트 입력부터 감성 분류까지 동작하는 앱으로 구동했습니다(시연 영상). 산출 모델은 ONNX 64MB입니다."
+      },
+      "metrics": [
+        { "label": "모델 포맷", "value": "ONNX 64MB" },
+        { "label": "실행 환경", "value": "Unity Sentis · Android" }
+      ],
+      "video": "https://www.youtube.com/watch?v=OvK0o6xK6CE",
+      "deepDive": "ondevice-sentiment-analysis"
+    },
+    {
       "slug": "avatar-sequential-generation",
       "title": "아바타 순차 생성",
       "hook": "18개+ 부위 조합 아바타의 생성을 비동기화해, 10인 이상 그룹 콘텐츠에서도 평균 30fps+ 유지",
