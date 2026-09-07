@@ -44,23 +44,23 @@
       "deepDive": "savers-disaster-evacuation"
     },
     {
-      "slug": "model-quantization-ondevice",
-      "title": "양자화하면 빨라진다는 통념의 반증",
-      "hook": "의료영상 분류 모델을 FP32, INT8, ONNX 3종으로 변환해 같은 테스트셋에서 비교. INT8 3.64배 압축, ONNX 2.15배 단축, 위음성 0 유지",
-      "tags": ["PyTorch", "ONNX", "Quantization", "On-Device AI"],
+      "slug": "ondevice-sentiment-analysis",
+      "title": "온디바이스 감성 분석 Android 앱",
+      "hook": "쇼핑몰 리뷰 감성 분류 모델을 ONNX로 변환해 Unity Sentis로 Android에서 서빙. 모델 선정 기준은 용량, 정확도, 처리 속도 순",
+      "tags": ["Unity Sentis", "ONNX", "NLP", "Android"],
       "period": "2026",
       "featured": true,
       "summary": {
-        "problem": "의료영상 분류 모델(MobileNetV3-Large)을 단말에 올리려면 용량과 추론 지연을 줄여야 하지만, 의료 도메인에서는 위음성(놓친 환자)이 늘어나면 안 됩니다. accuracy 한 숫자가 아니라 무엇을 지킬지를 먼저 정해야 했습니다.",
-        "role": "PyTorch FP32, PTQ 정적 양자화 INT8, ONNX(opset 17) 3종 포맷으로 변환하고 같은 테스트셋에서 용량, CPU 단건 추론 지연, 예측 변화를 측정했습니다. 체크포인트 선택 기준을 accuracy 대신 위음성 최소화로 두어, val accuracy가 3.4%p 낮지만 FN 0인 쪽을 채택했습니다.",
-        "outcome": "INT8로 용량 16.24MB에서 4.47MB로 압축(3.64배), ONNX 변환으로 지연 20.20ms에서 9.40ms로 단축(2.15배). 양자화 후 예측 변화 26/624건이 전부 위양성 방향임을 확인해 Recall 1.0과 FN 0을 유지했습니다. ONNX(FP32)가 INT8보다 빠른 역전 현상을 측정하고 런타임 최적화 수준의 차이로 원인을 분해했습니다. 양자화의 확실한 이득은 용량이고, 속도는 런타임에 좌우된다는 결론입니다."
+        "problem": "쇼핑몰 리뷰의 감성을 서버 없이 단말에서 분류하는 파이프라인이 목표였습니다. 온디바이스에서는 정확도보다 용량과 처리 속도가 먼저 제약이 되므로, 모델 선정 기준을 용량, 정확도, 처리 속도 순으로 두어야 했습니다.",
+        "role": "HuggingFace 직접 탐색 결과 8,985건을 부적합으로 판단하고 웹 검색과 AI 서포트로 KcELECTRA-small과 KoMiniLM 2종을 선발했습니다. 각 모델을 freeze와 full fine-tune 두 방식으로 학습해 체크포인트 4조합을 비교하고, 최종 모델을 ONNX로 변환한 뒤 Unity 6.3 LTS와 Unity Sentis 환경을 구축해 Android APK로 서빙했습니다.",
+        "outcome": "Android 실기기에서 리뷰 텍스트 입력부터 감성 분류까지 동작하는 앱으로 구동했습니다(시연 영상). 산출 모델은 ONNX 64MB입니다."
       },
       "metrics": [
-        { "label": "용량 압축 (INT8)", "value": "3.64배" },
-        { "label": "지연 단축 (ONNX)", "value": "2.15배" },
-        { "label": "위음성 (FN)", "value": "0 유지" }
+        { "label": "모델 포맷", "value": "ONNX 64MB" },
+        { "label": "실행 환경", "value": "Unity Sentis · Android" }
       ],
-      "deepDive": "model-quantization-ondevice"
+      "video": "https://www.youtube.com/watch?v=OvK0o6xK6CE",
+      "deepDive": "ondevice-sentiment-analysis"
     },
     {
       "slug": "unity-ondevice-rag",
@@ -82,23 +82,23 @@
       "deepDive": "unity-ondevice-rag"
     },
     {
-      "slug": "ondevice-sentiment-analysis",
-      "title": "온디바이스 감성 분석 Android 앱",
-      "hook": "쇼핑몰 리뷰 감성 분류 모델을 ONNX로 변환해 Unity Sentis로 Android에서 서빙. 모델 선정 기준은 용량, 정확도, 처리 속도 순",
-      "tags": ["Unity Sentis", "ONNX", "NLP", "Android"],
+      "slug": "model-quantization-ondevice",
+      "title": "양자화하면 빨라진다는 통념의 반증",
+      "hook": "의료영상 분류 모델을 FP32, INT8, ONNX 3종으로 변환해 같은 테스트셋에서 비교. INT8 3.64배 압축, ONNX 2.15배 단축, 위음성 0 유지",
+      "tags": ["PyTorch", "ONNX", "Quantization", "On-Device AI"],
       "period": "2026",
       "featured": false,
       "summary": {
-        "problem": "쇼핑몰 리뷰의 감성을 서버 없이 단말에서 분류하는 파이프라인이 목표였습니다. 온디바이스에서는 정확도보다 용량과 처리 속도가 먼저 제약이 되므로, 모델 선정 기준을 용량, 정확도, 처리 속도 순으로 두어야 했습니다.",
-        "role": "HuggingFace 직접 탐색 결과 8,985건을 부적합으로 판단하고 웹 검색과 AI 서포트로 KcELECTRA-small과 KoMiniLM 2종을 선발했습니다. 각 모델을 freeze와 full fine-tune 두 방식으로 학습해 체크포인트 4조합을 비교하고, 최종 모델을 ONNX로 변환한 뒤 Unity 6.3 LTS와 Unity Sentis 환경을 구축해 Android APK로 서빙했습니다.",
-        "outcome": "Android 실기기에서 리뷰 텍스트 입력부터 감성 분류까지 동작하는 앱으로 구동했습니다(시연 영상). 산출 모델은 ONNX 64MB입니다."
+        "problem": "의료영상 분류 모델(MobileNetV3-Large)을 단말에 올리려면 용량과 추론 지연을 줄여야 하지만, 의료 도메인에서는 위음성(놓친 환자)이 늘어나면 안 됩니다. accuracy 한 숫자가 아니라 무엇을 지킬지를 먼저 정해야 했습니다.",
+        "role": "PyTorch FP32, PTQ 정적 양자화 INT8, ONNX(opset 17) 3종 포맷으로 변환하고 같은 테스트셋에서 용량, CPU 단건 추론 지연, 예측 변화를 측정했습니다. 체크포인트 선택 기준을 accuracy 대신 위음성 최소화로 두어, val accuracy가 3.4%p 낮지만 FN 0인 쪽을 채택했습니다.",
+        "outcome": "INT8로 용량 16.24MB에서 4.47MB로 압축(3.64배), ONNX 변환으로 지연 20.20ms에서 9.40ms로 단축(2.15배). 양자화 후 예측 변화 26/624건이 전부 위양성 방향임을 확인해 Recall 1.0과 FN 0을 유지했습니다. ONNX(FP32)가 INT8보다 빠른 역전 현상을 측정하고 런타임 최적화 수준의 차이로 원인을 분해했습니다. 양자화의 확실한 이득은 용량이고, 속도는 런타임에 좌우된다는 결론입니다."
       },
       "metrics": [
-        { "label": "모델 포맷", "value": "ONNX 64MB" },
-        { "label": "실행 환경", "value": "Unity Sentis · Android" }
+        { "label": "용량 압축 (INT8)", "value": "3.64배" },
+        { "label": "지연 단축 (ONNX)", "value": "2.15배" },
+        { "label": "위음성 (FN)", "value": "0 유지" }
       ],
-      "video": "https://www.youtube.com/watch?v=OvK0o6xK6CE",
-      "deepDive": "ondevice-sentiment-analysis"
+      "deepDive": "model-quantization-ondevice"
     },
     {
       "slug": "avatar-sequential-generation",
