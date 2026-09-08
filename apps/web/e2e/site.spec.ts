@@ -75,7 +75,7 @@ test.describe("navigation", () => {
     );
   });
 
-  test("about offers the resume PDF download with a Korean file name", async ({ page }) => {
+  test("header offers the resume PDF download with a Korean file name", async ({ page }) => {
     await page.goto("/about/");
     const link = page.getByRole("link", { name: "이력서 PDF 다운로드" });
     await expect(link).toBeVisible();
@@ -125,5 +125,13 @@ test.describe("ask page layout", () => {
 
     await page.getByPlaceholder("질문을 입력하세요…").fill("테스트 질문");
     await expect(sendButton).toBeEnabled();
+
+    // The footer note must stay a readable line next to the Turnstile widget,
+    // not collapse to one character per line (regression seen on a 360px phone).
+    const note = page.getByText("AI가 생성한 답변으로");
+    const box = await note.boundingBox();
+    expect(box?.width ?? 0).toBeGreaterThan(200);
+    expect(box?.height ?? 999).toBeLessThan(40);
+    await expect(page.getByRole("link", { name: "이 챗봇은 어떻게 만들어졌나" })).toBeVisible();
   });
 });

@@ -48,7 +48,7 @@ export default function RootLayout({
     <html lang="ko" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-white text-zinc-900">
         <SiteHeader />
-        <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8 sm:px-6">{children}</main>
         <footer className="border-t border-zinc-200">
           <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-sm text-zinc-500">
             <span>© 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers</span>

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
@@ -30,6 +31,8 @@ interface TurnstileApi {
     options: {
       sitekey: string;
       action?: string;
+      // "flexible" fills the container width (min 300px) instead of a fixed 300px box.
+      size?: "normal" | "flexible" | "compact";
       callback: (token: string) => void;
       "expired-callback"?: () => void;
       "error-callback"?: () => void;
@@ -111,6 +114,7 @@ export default function ChatClient() {
       widgetIdRef.current = window.turnstile.render(turnstileSlotRef.current, {
         sitekey: TURNSTILE_SITEKEY,
         action: "turnstile-spin-v2",
+        size: "flexible",
         callback: (token) => {
           tokenRef.current = token;
           setIsVerified(true);
@@ -275,11 +279,18 @@ export default function ChatClient() {
   return (
     <div className="flex h-[min(70dvh,720px)] min-h-[420px] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white">
       {/* Band-style header, matching the resume sheets used across the site. */}
-      <div className="flex items-baseline justify-between gap-3 bg-brand px-4 py-3 text-white">
-        <span className="font-serif text-lg font-bold italic underline decoration-1 underline-offset-4">
-          Ask AI
-        </span>
-        <span className="text-xs opacity-85">경력 · 프로젝트 · 기술 스택</span>
+      <div className="flex flex-col gap-2 bg-brand px-4 py-3 text-white sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h2 className="font-serif text-lg font-bold italic underline decoration-1 underline-offset-4">
+            Ask AI
+          </h2>
+          <p className="mt-1 text-sm leading-relaxed">
+            신호정의 경력과 프로젝트를 학습한 AI 어시스턴트입니다.
+            <br />
+            Cloudflare Workers AI와 NVIDIA API 위에서 동작합니다.
+          </p>
+        </div>
+        <span className="text-xs opacity-85 sm:pt-1">경력 · 프로젝트 · 기술 스택</span>
       </div>
       <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4">
         {messages.length === 0 && (
@@ -377,7 +388,7 @@ export default function ChatClient() {
           <button
             type="button"
             onClick={stop}
-            className="rounded-lg border border-brand/50 px-4 py-2 text-sm font-medium text-brand hover:bg-cream"
+            className="shrink-0 whitespace-nowrap rounded-lg border border-brand/50 px-4 py-2 text-sm font-medium text-brand hover:bg-cream"
           >
             중단
           </button>
@@ -385,19 +396,29 @@ export default function ChatClient() {
           <button
             type="submit"
             disabled={input.trim().length === 0}
-            className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-50 disabled:hover:bg-brand"
+            className="shrink-0 whitespace-nowrap rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-50 disabled:hover:bg-brand"
           >
             보내기
           </button>
         )}
       </form>
 
-      <div className="flex items-center justify-between border-t border-zinc-200 px-4 py-2">
-        <p className="text-xs text-zinc-500">
+      {/* Phones: stack so the 300px-wide Turnstile widget never squeezes the note to one
+          character per line. sm+: note left, widget and "how it was built" link right. */}
+      <div className="flex flex-col gap-2 border-t border-zinc-200 px-3 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-4">
+        <p className="min-w-0 text-xs text-zinc-500">
           AI가 생성한 답변으로, 부정확할 수 있습니다.
           {!isVerified && " · 봇 방지 확인 중…"}
         </p>
-        <div ref={turnstileSlotRef} />
+        <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+          <div ref={turnstileSlotRef} className="max-w-full overflow-hidden" />
+          <Link
+            href="/projects/ask-ai-behind-the-scenes/"
+            className="self-end whitespace-nowrap font-serif text-xs italic text-brand underline underline-offset-4 sm:self-auto"
+          >
+            이 챗봇은 어떻게 만들어졌나
+          </Link>
+        </div>
       </div>
     </div>
   );

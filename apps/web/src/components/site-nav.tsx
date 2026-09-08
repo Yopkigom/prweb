@@ -28,7 +28,7 @@ export function SiteNav() {
   const pathname = usePathname();
 
   return (
-    <nav aria-label="사이트 메뉴" className="mt-4 flex flex-wrap gap-2 sm:gap-3">
+    <nav aria-label="사이트 메뉴" className="flex flex-wrap gap-2 sm:gap-3">
       {NAV_ITEMS.map((item) => {
         const active = isActive(pathname, item.href);
         return (

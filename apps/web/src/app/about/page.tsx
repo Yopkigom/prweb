@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import {
   BULLET_CLASS,
-  BUTTON_PRIMARY_CLASS,
   LINK_CLASS,
   ResumeFoot,
   ResumeFrame,
@@ -19,11 +18,7 @@ export const metadata: Metadata = {
   title: "About",
 };
 
-// Public resume PDF (phone number removed, photo kept). Built in the job-hunt repo with
-// `python -X utf8 resume/design/build.py --web` and copied to public/resume.pdf.
-// Served with X-Robots-Tag: noindex (public/_headers); not disallowed in robots.ts so crawlers can read that header.
-const RESUME_PDF_PATH = "/resume.pdf";
-const RESUME_PDF_FILENAME = "신호정_웹_이력서.pdf";
+// The resume PDF download button lives in components/site-header.tsx.
 
 // Every number below mirrors the master resume. Change both or neither.
 
@@ -296,37 +291,9 @@ const CONTACT = [
   },
 ] as const;
 
-function DownloadIcon() {
-  return (
-    <svg
-      aria-hidden="true"
-      className="h-4 w-4"
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 15.5h12" />
-    </svg>
-  );
-}
-
 export default function AboutPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-8">
-      <header className="flex flex-wrap items-start justify-between gap-4">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-bold tracking-tight">About</h2>
-          <p className="text-lg text-zinc-600">경력 · 특허 · 수상 · 교육 · 기술 스택</p>
-        </div>
-        <a href={RESUME_PDF_PATH} download={RESUME_PDF_FILENAME} className={BUTTON_PRIMARY_CLASS}>
-          <DownloadIcon />
-          이력서 PDF 다운로드
-        </a>
-      </header>
-
       <section className={SHEET_CLASS}>
         {/* Summary + self-introduction share one section above the numbers. */}
         <div className={SHEET_HEAD_CLASS}>

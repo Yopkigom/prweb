@@ -1,13 +1,37 @@
 import { SERIF_HEADING_CLASS } from "./resume-layout";
 import { SiteNav } from "./site-nav";
 
+// Public resume PDF (phone number removed, photo kept). Built in the job-hunt repo with
+// `python -X utf8 resume/design/build.py --web` and copied to public/resume.pdf.
+// Served with X-Robots-Tag: noindex (public/_headers); not disallowed in robots.ts so crawlers can read that header.
+const RESUME_PDF_PATH = "/resume.pdf";
+const RESUME_PDF_FILENAME = "신호정_웹_이력서.pdf";
+
+function DownloadIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-4 w-4"
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M10 3v9m0 0 3.5-3.5M10 12 6.5 8.5M4 15.5h12" />
+    </svg>
+  );
+}
+
 // Replaces the old top menu: the resume poster headline (title → name · role →
-// Applying For → Introduction) plus the section buttons, pinned to the top on
-// sm+ viewports. On phones it scrolls with the page so it does not eat the screen.
+// Applying For → Introduction) plus the section buttons and the resume download,
+// pinned to the top on sm+ viewports. On phones it scrolls with the page so it
+// does not eat the screen.
 export function SiteHeader() {
   return (
     <header className="z-10 bg-brand text-white shadow-md sm:sticky sm:top-0">
-      <div className="mx-auto max-w-5xl px-6 py-5">
+      <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6">
         <h1 className="text-2xl font-black leading-tight tracking-tight sm:text-3xl">
           Unity 16년, 멀티플랫폼 AI를 주도합니다.
         </h1>
@@ -36,7 +60,17 @@ export function SiteHeader() {
           </p>
         </div>
 
-        <SiteNav />
+        <div className="mt-4 flex flex-wrap items-center gap-2 sm:gap-3">
+          <SiteNav />
+          <a
+            href={RESUME_PDF_PATH}
+            download={RESUME_PDF_FILENAME}
+            className="inline-flex items-center gap-2 rounded-lg bg-white px-4 py-2 text-sm font-semibold text-brand transition-colors hover:bg-cream sm:ml-auto"
+          >
+            <DownloadIcon />
+            이력서 PDF 다운로드
+          </a>
+        </div>
       </div>
     </header>
   );
