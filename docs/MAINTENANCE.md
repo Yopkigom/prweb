@@ -44,7 +44,7 @@
 
 `.mdx`가 아직 없는 프로젝트는 `deepDive` 값을 slug로 두되 `content/index.ts`에 등록하지 않으면 L1·L2만 렌더링된다. 공개 저장소가 있으면 `repo` 필드에 URL을 넣는다(상세 페이지에 "GitHub 저장소" 버튼).
 
-YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 쓸 것 (서드파티 쿠키 이슈 완화, Lighthouse best-practices 감점 방지).
+YouTube 영상은 `components/youtube-facade.tsx`(클릭 전 로컬 포스터 + 재생 버튼, 클릭 후 **`youtube-nocookie.com`** iframe)로 넣는다. `youtube-nocookie`도 iframe이 뜨는 순간 쿠키를 설정해 Lighthouse best-practices에서 감점되므로, 페이지 로드 시점에는 iframe을 만들지 않는다. 포스터는 `https://i.ytimg.com/vi/<ID>/maxresdefault.jpg`(브라우저 UA 필요)를 받아 960px WebP로 변환해 `public/demo-<ID>.webp`에 둔다.
 
 ### 챗봇이 아는 내용 갱신
 
@@ -56,8 +56,8 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 
 `apps/web/src/app/page.tsx`(쇼케이스)는 파란 시트 한 장: 저장소 카드 + 시연 영상 2편. `DEMO_VIDEOS`, `SHOWCASE_REPO` 배열만 고친다. 프로젝트 목록은 `projects/page.tsx`(파란 시트, 크림 프레임 목록을 Featured / More 두 그룹으로), Overview 숫자 타일은 About 상단(`about/page.tsx`의 `OVERVIEW` 배열)에 있고, 경력·특허·기술 스택도 About에만 있다. 수치는 마스터 이력서와 같이 바꾼다.
 
-- Showcase 썸네일은 `public/showcase-ad.jpg`. 사진은 홈에 쓰지 않는다(웹용 PDF에만 있음).
-- `DEMO_VIDEOS`(YouTube ID·제목·설명·연결 프로젝트 slug)의 임베드는 `youtube-nocookie.com`. 같은 영상을 프로젝트 카드의 `video` 필드와 `chat-worker/src/context.json`의 `links.demo_videos`에도 함께 넣는다.
+- Showcase 썸네일은 `public/showcase-ad.webp`(1344px, 원본 `showcase-ad.jpg` 1600px에서 sharp로 변환). 사진은 홈에 쓰지 않는다(웹용 PDF에만 있음).
+- `DEMO_VIDEOS`(YouTube ID·제목·설명·연결 프로젝트 slug)는 `YouTubeFacade`로 렌더링하고 포스터 `public/demo-<ID>.webp`가 필요하다. 같은 영상을 프로젝트 카드의 `video` 필드와 `chat-worker/src/context.json`의 `links.demo_videos`에도 함께 넣는다.
 - 공용 레이아웃(`ResumeFrame`/`ResumeSection`/`ResumeRow`/`ResumeFoot`/`StatTile`, 버튼·태그 클래스)은 `apps/web/src/components/resume-layout.tsx`. 색 토큰(`brand`, `brand-dark`, `brand-deep`, `cream`, `ink`)은 `globals.css`.
 - 상세(`projects/[slug]/page.tsx`)는 문제·역할·성과 띠 + Key Numbers 타일 + Technical Deep Dive 순서다.
 

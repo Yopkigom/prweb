@@ -7,12 +7,14 @@ import {
   SHEET_SUBTITLE_CLASS,
   SHEET_TITLE_CLASS,
 } from "../components/resume-layout";
+import { YouTubeFacade } from "../components/youtube-facade";
 
 // Home = Showcase (resume page 3). The headline lives in the sticky SiteHeader,
 // the numeric Overview on About, and the project list on /projects/.
 
-// Demo videos shown in Showcase. Embed via youtube-nocookie
-// (see docs/MAINTENANCE.md). Keep captions in sync with projects.json.
+// Demo videos shown in Showcase. Rendered as a click-to-play facade with a
+// local poster (public/demo-<id>.webp); the youtube-nocookie iframe loads on
+// click only (see docs/MAINTENANCE.md). Keep captions in sync with projects.json.
 const DEMO_VIDEOS = [
   {
     id: "E51utCQPQYk",
@@ -50,7 +52,7 @@ export default function HomePage() {
         <p className="text-sm leading-relaxed sm:text-right">
           <b>시연 영상과 저장소.</b>
           <br />
-          영상은 바로 재생되고, 이미지를 누르면 GitHub로 이동합니다.
+          영상은 재생 버튼을 누르면 재생되고, 이미지를 누르면 GitHub로 이동합니다.
         </p>
       </div>
 
@@ -60,14 +62,10 @@ export default function HomePage() {
           <figure key={video.id}>
             <div className={CREAM_FRAME_CLASS}>
               <div className="aspect-video overflow-hidden bg-brand-deep">
-                <iframe
-                  className="h-full w-full"
-                  src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                <YouTubeFacade
+                  id={video.id}
                   title={video.title}
-                  loading="lazy"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
+                  poster={`/demo-${video.id}.webp`}
                 />
               </div>
             </div>
@@ -93,10 +91,10 @@ export default function HomePage() {
           <div className={CREAM_FRAME_CLASS}>
             <div className="relative aspect-[3/2] overflow-hidden bg-brand-deep">
               <Image
-                src="/showcase-ad.jpg"
+                src="/showcase-ad.webp"
                 alt="광고 소재 생성 서비스 결과물, 만화형 6칸 3x2 합성본"
-                width={1200}
-                height={800}
+                width={1344}
+                height={896}
                 priority
                 className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
               />

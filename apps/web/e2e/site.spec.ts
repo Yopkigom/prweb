@@ -66,9 +66,15 @@ test.describe("navigation", () => {
     await expect(page.getByRole("heading", { name: "Technical Deep Dive" })).toHaveCount(0);
   });
 
-  test("home shows the showcase with a repo card and two video embeds", async ({ page }) => {
+  test("home shows the showcase with a repo card and two click-to-play videos", async ({ page }) => {
     await page.goto("/");
-    await expect(page.locator("iframe[src*=\"youtube-nocookie.com/embed/\"]")).toHaveCount(2);
+    // Facade: no YouTube iframe (and no third-party request) until play is pressed.
+    const playButtons = page.getByRole("button", { name: /영상 재생$/ });
+    await expect(playButtons).toHaveCount(2);
+    await expect(page.locator("iframe[src*=\"youtube-nocookie.com/embed/\"]")).toHaveCount(0);
+    await playButtons.first().click();
+    await expect(page.locator("iframe[src*=\"youtube-nocookie.com/embed/E51utCQPQYk\"]")).toHaveCount(1);
+    await expect(page.getByRole("button", { name: /영상 재생$/ })).toHaveCount(1);
     await expect(page.getByRole("link", { name: /광고 소재 생성 서비스 결과물/ })).toHaveAttribute(
       "href",
       /github\.com/
