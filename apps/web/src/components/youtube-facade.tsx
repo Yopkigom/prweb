@@ -37,12 +37,15 @@ export function YouTubeFacade({ id, title, poster }: YouTubeFacadeProps) {
       aria-label={`${title} 영상 재생`}
       className="group relative block h-full w-full cursor-pointer overflow-hidden"
     >
-      {/* Static export runs Image unoptimized; the poster is pre-sized to 960x540. */}
+      {/* Static export runs Image unoptimized; the poster is pre-sized to 960x540.
+          The posters sit in the first viewport and become the desktop LCP element,
+          so they must not be lazy-loaded (Lighthouse: ~1s load delay otherwise). */}
       <Image
         src={poster}
         alt=""
         width={960}
         height={540}
+        priority
         className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
       />
       <span className="absolute inset-0 flex items-center justify-center bg-black/25 transition-colors group-hover:bg-black/35">
