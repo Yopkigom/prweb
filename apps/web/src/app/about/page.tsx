@@ -10,6 +10,7 @@ import {
   SERIF_HEADING_CLASS,
   SHEET_CLASS,
   SHEET_HEAD_CLASS,
+  SHEET_SUBTITLE_CLASS,
   SHEET_TITLE_CLASS,
   StatTile,
 } from "../../components/resume-layout";
@@ -327,7 +328,36 @@ export default function AboutPage() {
       </header>
 
       <section className={SHEET_CLASS}>
+        {/* Summary + self-introduction share one section above the numbers. */}
         <div className={SHEET_HEAD_CLASS}>
+          <h2 className={SHEET_TITLE_CLASS}>
+            Summary
+            <span className={SHEET_SUBTITLE_CLASS}>요약과 자기소개</span>
+          </h2>
+          <p className="text-sm leading-relaxed sm:text-right">
+            <b>실시간 클라이언트 16년, AI 제품 개발 리드.</b>
+            <br />
+            같은 문제를 16년째 풀고 있습니다.
+          </p>
+        </div>
+        <dl className="grid gap-x-6 gap-y-2 py-6 text-sm sm:grid-cols-[11rem_minmax(0,1fr)]">
+          {SUMMARY.map((item) => (
+            <div key={item.label} className="contents">
+              <dt className="font-bold sm:text-right">{item.label}</dt>
+              <dd className="leading-relaxed opacity-95">{item.text}</dd>
+            </div>
+          ))}
+        </dl>
+        <dl className="grid gap-x-6 gap-y-3 border-t border-white/30 py-6 text-sm sm:grid-cols-[11rem_minmax(0,1fr)]">
+          {INTRO.map((item) => (
+            <div key={item.label} className="contents">
+              <dt className="font-bold sm:text-right">{item.label}</dt>
+              <dd className="max-w-3xl leading-relaxed opacity-95">{item.text}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div className={`${SHEET_HEAD_CLASS} mt-6`}>
           <h2 className={SHEET_TITLE_CLASS}>Overview</h2>
           <p className="text-sm leading-relaxed sm:text-right">
             <b>숫자로 보는 핵심 역량.</b>
@@ -362,22 +392,6 @@ export default function AboutPage() {
       </section>
 
       <ResumeFrame>
-        <ResumeSection en="Summary" ko="요약" caption="실시간 클라이언트 16년, AI 제품 개발 리드">
-          {SUMMARY.map((item, index) => (
-            <ResumeRow key={item.label} label={item.label} index={index}>
-              <p>{item.text}</p>
-            </ResumeRow>
-          ))}
-        </ResumeSection>
-
-        <ResumeSection en="Introduction" ko="자기소개" caption="같은 문제를 16년째 풀고 있습니다">
-          {INTRO.map((item, index) => (
-            <ResumeRow key={item.label} label={item.label} index={index}>
-              <p>{item.text}</p>
-            </ResumeRow>
-          ))}
-        </ResumeSection>
-
         <ResumeSection en="Experience" ko="경력" caption="2009 ~ 2026 경력 정리">
           {CAREER.map((job, index) => (
             <ResumeRow

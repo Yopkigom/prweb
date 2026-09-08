@@ -54,7 +54,41 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="mx-auto mb-10 max-w-2xl">
+      <h3 className="sr-only">시연 영상</h3>
+      <div className="mb-10 grid gap-8 sm:grid-cols-2">
+        {DEMO_VIDEOS.map((video) => (
+          <figure key={video.id}>
+            <div className={CREAM_FRAME_CLASS}>
+              <div className="aspect-video overflow-hidden bg-brand-deep">
+                <iframe
+                  className="h-full w-full"
+                  src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                  title={video.title}
+                  loading="lazy"
+                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+            <figcaption className="mt-3">
+              <div className="font-bold">
+                {video.title}
+                <span className="ml-1.5 text-xs font-normal opacity-85">{video.meta}</span>
+              </div>
+              <p className="mt-1 text-sm leading-relaxed opacity-90">
+                {video.caption}
+                {" · "}
+                <Link href={`/projects/${video.projectSlug}/`} className="underline underline-offset-4">
+                  프로젝트 상세 보기
+                </Link>
+              </p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div className="mx-auto max-w-2xl">
         <a href={SHOWCASE_REPO.href} target="_blank" rel="noopener noreferrer" className="group block">
           <div className={CREAM_FRAME_CLASS}>
             <div className="relative aspect-[3/2] overflow-hidden bg-brand-deep">
@@ -87,40 +121,6 @@ export default function HomePage() {
             프로젝트 상세 보기
           </Link>
         </p>
-      </div>
-
-      <h3 className="sr-only">시연 영상</h3>
-      <div className="grid gap-8 sm:grid-cols-2">
-        {DEMO_VIDEOS.map((video) => (
-          <figure key={video.id}>
-            <div className={CREAM_FRAME_CLASS}>
-              <div className="aspect-video overflow-hidden bg-brand-deep">
-                <iframe
-                  className="h-full w-full"
-                  src={`https://www.youtube-nocookie.com/embed/${video.id}`}
-                  title={video.title}
-                  loading="lazy"
-                  allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-            <figcaption className="mt-3">
-              <div className="font-bold">
-                {video.title}
-                <span className="ml-1.5 text-xs font-normal opacity-85">{video.meta}</span>
-              </div>
-              <p className="mt-1 text-sm leading-relaxed opacity-90">
-                {video.caption}
-                {" · "}
-                <Link href={`/projects/${video.projectSlug}/`} className="underline underline-offset-4">
-                  프로젝트 상세 보기
-                </Link>
-              </p>
-            </figcaption>
-          </figure>
-        ))}
       </div>
     </section>
   );
