@@ -52,9 +52,9 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 
 ### 홈 (이력서 1~3쪽 양식)
 
-`apps/web/src/app/page.tsx`는 디자인 이력서의 1쪽(파란 포스터: 제목·사진·Applying For·Contact·Introduction·Experience·Awards·AI Projects·Tech Stack) → 2쪽(Overview 숫자 타일) → 3쪽(Showcase 저장소 카드 + 시연 영상) 순서를 그대로 따른다. 각 블록은 파일 상단의 데이터 배열(`EXPERIENCE`, `AWARDS`, `AI_PROJECTS`, `STACK`, `OVERVIEW`, `DEMO_VIDEOS`, `SHOWCASE_REPO`)만 고친다. 수치는 마스터 이력서와 같이 바꾼다.
+`apps/web/src/app/page.tsx`는 파란 시트 세 장이다. ① 헤드라인(한 줄 제목 → 이름 | 역할 → Applying For → Introduction → 버튼 3개) 바로 아래에 Overview 숫자 타일을 이어 붙인 시트, ② Showcase(저장소 카드 + 시연 영상), ③ 주요 프로젝트 크림 프레임 카드. 경력·특허·기술 스택은 홈에 두지 않고 About에만 있다. 각 블록은 파일 상단의 데이터 배열(`OVERVIEW`, `DEMO_VIDEOS`, `SHOWCASE_REPO`)만 고친다. 수치는 마스터 이력서와 같이 바꾼다.
 
-- 사진은 `public/photo.jpg`(웹용 PDF와 같은 사진, CSS로 흑백 처리), Showcase 썸네일은 `public/showcase-ad.jpg`.
+- Showcase 썸네일은 `public/showcase-ad.jpg`. 사진은 홈에 쓰지 않는다(웹용 PDF에만 있음).
 - `DEMO_VIDEOS`(YouTube ID·제목·설명·연결 프로젝트 slug)의 임베드는 `youtube-nocookie.com`. 같은 영상을 프로젝트 카드의 `video` 필드와 `chat-worker/src/context.json`의 `links.demo_videos`에도 함께 넣는다.
 - 공용 레이아웃(`ResumeFrame`/`ResumeSection`/`ResumeRow`/`ResumeFoot`/`StatTile`, 버튼·태그 클래스)은 `apps/web/src/components/resume-layout.tsx`. 색 토큰(`brand`, `brand-dark`, `brand-deep`, `cream`, `ink`)은 `globals.css`.
 - Projects 목록(`projects/page.tsx`)은 `featured` 여부로 Featured / More 두 절로 나뉘고, 상세(`projects/[slug]/page.tsx`)는 문제·역할·성과 띠 + Key Numbers 타일 + Technical Deep Dive 순서다.

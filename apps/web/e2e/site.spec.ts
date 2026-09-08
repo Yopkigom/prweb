@@ -5,10 +5,11 @@ test.describe("navigation", () => {
     await page.goto("/");
     await expect(page).toHaveTitle(/신호정/);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByRole("link", { name: "프로젝트 보기" })).toBeVisible();
-    // Resume poster → Overview → Showcase order, mirroring the design resume.
+    await expect(page.getByRole("link", { name: "프로젝트 보기", exact: true })).toBeVisible();
+    // Headline → Applying For → Introduction → buttons → Overview, all on one blue sheet.
+    await expect(page.getByRole("heading", { name: "Introduction" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
-    await expect(page.getByRole("img", { name: /증명사진/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^Projects/ })).toBeVisible();
   });
 
   test("projects page lists featured rows that link to detail pages", async ({ page }) => {
