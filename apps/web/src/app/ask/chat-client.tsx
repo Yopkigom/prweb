@@ -45,6 +45,9 @@ declare global {
   }
 }
 
+const CHIP_CLASS =
+  "rounded-full border border-brand/40 px-3 py-1.5 text-xs text-brand hover:bg-cream disabled:opacity-50 dark:border-blue-300/50 dark:text-blue-300 dark:hover:bg-zinc-900";
+
 interface UiMessage {
   role: "user" | "assistant";
   content: string;
@@ -270,7 +273,14 @@ export default function ChatClient() {
     !isLoading && messages.length > 0 && messages[messages.length - 1]?.role === "assistant";
 
   return (
-    <div className="flex h-[min(70dvh,720px)] min-h-[420px] flex-col rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <div className="flex h-[min(70dvh,720px)] min-h-[420px] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+      {/* Band-style header, matching the resume sheets used across the site. */}
+      <div className="flex items-baseline justify-between gap-3 bg-brand px-4 py-3 text-white">
+        <span className="font-serif text-lg font-bold italic underline decoration-1 underline-offset-4">
+          Ask AI
+        </span>
+        <span className="text-xs opacity-85">경력 · 프로젝트 · 기술 스택</span>
+      </div>
       <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-4">
         {messages.length === 0 && (
           <div className="space-y-3 pt-8 text-center">
@@ -284,7 +294,7 @@ export default function ChatClient() {
                   type="button"
                   onClick={() => void send(question)}
                   disabled={isLoading}
-                  className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-900"
+                  className={CHIP_CLASS}
                 >
                   {question}
                 </button>
@@ -301,8 +311,8 @@ export default function ChatClient() {
             <div
               className={
                 message.role === "user"
-                  ? "max-w-[80%] rounded-2xl rounded-br-sm bg-zinc-900 px-4 py-2 text-sm text-white dark:bg-zinc-100 dark:text-zinc-900"
-                  : "max-w-[80%] rounded-2xl rounded-bl-sm bg-zinc-100 px-4 py-2 text-sm dark:bg-zinc-900"
+                  ? "max-w-[80%] rounded-2xl rounded-br-sm bg-brand px-4 py-2 text-sm text-white"
+                  : "max-w-[80%] rounded-2xl rounded-bl-sm bg-cream px-4 py-2 text-sm dark:bg-zinc-900"
               }
             >
               {message.role === "assistant" ? (
@@ -332,7 +342,7 @@ export default function ChatClient() {
                 key={question}
                 type="button"
                 onClick={() => void send(question)}
-                className="rounded-full border border-zinc-300 px-3 py-1.5 text-xs text-zinc-600 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-900"
+                className={CHIP_CLASS}
               >
                 {question}
               </button>
@@ -361,13 +371,13 @@ export default function ChatClient() {
           onChange={(event) => setInput(event.target.value)}
           placeholder="질문을 입력하세요…"
           maxLength={2000}
-          className="flex-1 rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-zinc-500 dark:border-zinc-700"
+          className="flex-1 rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-brand dark:border-zinc-700 dark:focus:border-blue-300"
         />
         {isLoading ? (
           <button
             type="button"
             onClick={stop}
-            className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
+            className="rounded-lg border border-brand/50 px-4 py-2 text-sm font-medium text-brand hover:bg-cream dark:border-blue-300/50 dark:text-blue-300 dark:hover:bg-zinc-900"
           >
             중단
           </button>
@@ -375,7 +385,7 @@ export default function ChatClient() {
           <button
             type="submit"
             disabled={input.trim().length === 0}
-            className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50 dark:bg-zinc-100 dark:text-zinc-900"
+            className="rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white hover:bg-brand-dark disabled:opacity-50 disabled:hover:bg-brand"
           >
             보내기
           </button>

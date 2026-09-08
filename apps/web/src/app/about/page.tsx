@@ -1,4 +1,13 @@
 import type { Metadata } from "next";
+import {
+  BULLET_CLASS,
+  BUTTON_PRIMARY_CLASS,
+  LINK_CLASS,
+  ResumeFoot,
+  ResumeFrame,
+  ResumeRow,
+  ResumeSection,
+} from "../../components/resume-layout";
 
 export const metadata: Metadata = {
   title: "About",
@@ -221,82 +230,6 @@ const CONTACT = [
   },
 ] as const;
 
-// ---------------------------------------------------------------------------
-// Layout: blue label band on the left, detail boxes alternating white / cream
-// on the right (mirrors resume/design/resume.tpl.html detail pages). Grid rows
-// stretch, so stacking rows without gaps keeps the band continuous.
-// ---------------------------------------------------------------------------
-
-const GRID_CLASS =
-  "grid grid-cols-1 sm:grid-cols-[12rem_minmax(0,1fr)] md:grid-cols-[15rem_minmax(0,1fr)]";
-const BAND_CLASS = "bg-brand text-white";
-const BOX_CLASS = "px-6 py-3 text-sm leading-relaxed";
-const BOX_ALT_CLASS = "bg-cream dark:bg-zinc-900";
-const BOX_PLAIN_CLASS = "bg-white dark:bg-zinc-950";
-const BULLET_CLASS =
-  "pl-3 -indent-3 before:mr-1 before:font-black before:content-['·']";
-const LINK_CLASS =
-  "underline underline-offset-4 hover:text-brand dark:hover:text-blue-300";
-
-function boxClass(index: number): string {
-  return `${BOX_CLASS} ${index % 2 === 0 ? BOX_ALT_CLASS : BOX_PLAIN_CLASS}`;
-}
-
-type ResumeSectionProps = {
-  en: string;
-  ko: string;
-  caption: string;
-  children: React.ReactNode;
-};
-
-function ResumeSection({ en, ko, caption, children }: ResumeSectionProps) {
-  return (
-    <section className="contents">
-      <div className={GRID_CLASS}>
-        <div className={`${BAND_CLASS} px-5 pt-8 pb-3 sm:text-right`}>
-          <h2 className="text-xl font-bold leading-tight">
-            <span className="font-serif italic underline decoration-1 underline-offset-4">
-              {en}
-            </span>
-            <span className="ml-2 whitespace-nowrap text-xs font-normal opacity-85">
-              {ko}
-            </span>
-          </h2>
-        </div>
-        <div className="mx-6 flex items-end justify-end border-b border-brand/40 pt-8 pb-3 font-serif text-sm italic text-brand dark:text-blue-300">
-          {caption}
-        </div>
-      </div>
-      {children}
-    </section>
-  );
-}
-
-type ResumeRowProps = {
-  label: string;
-  sub?: string;
-  date?: string;
-  index: number;
-  children: React.ReactNode;
-};
-
-function ResumeRow({ label, sub, date, index, children }: ResumeRowProps) {
-  return (
-    <div className={GRID_CLASS}>
-      <div className={`${BAND_CLASS} px-5 py-3 sm:text-right`}>
-        <div className="font-semibold leading-snug">{label}</div>
-        {sub !== undefined && (
-          <div className="mt-0.5 text-sm leading-snug opacity-90">{sub}</div>
-        )}
-        {date !== undefined && (
-          <div className="mt-0.5 font-serif text-sm opacity-85">{date}</div>
-        )}
-      </div>
-      <div className={boxClass(index)}>{children}</div>
-    </div>
-  );
-}
-
 function DownloadIcon() {
   return (
     <svg
@@ -324,17 +257,13 @@ export default function AboutPage() {
             Unity 실시간 클라이언트 16년, AI 제품 개발 리드
           </p>
         </div>
-        <a
-          href={RESUME_PDF_PATH}
-          download={RESUME_PDF_FILENAME}
-          className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
-        >
+        <a href={RESUME_PDF_PATH} download={RESUME_PDF_FILENAME} className={BUTTON_PRIMARY_CLASS}>
           <DownloadIcon />
           이력서 PDF 다운로드
         </a>
       </header>
 
-      <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+      <ResumeFrame>
         <ResumeSection en="Summary" ko="요약" caption="실시간 클라이언트 16년, AI 제품 개발 리드">
           {SUMMARY.map((item, index) => (
             <ResumeRow key={item.label} label={item.label} index={index}>
@@ -448,15 +377,8 @@ export default function AboutPage() {
           ))}
         </ResumeSection>
 
-        <div className={GRID_CLASS}>
-          <div className={`${BAND_CLASS} px-5 py-4 font-serif text-sm italic opacity-90 sm:text-right`}>
-            신호정 / seenjeonga@gmail.com
-          </div>
-          <div className="px-6 py-4 text-right font-serif text-sm italic text-brand dark:text-blue-300">
-            prweb.yopkigom.workers.dev
-          </div>
-        </div>
-      </div>
+        <ResumeFoot left="신호정 / seenjeonga@gmail.com" right="prweb.yopkigom.workers.dev" />
+      </ResumeFrame>
     </div>
   );
 }

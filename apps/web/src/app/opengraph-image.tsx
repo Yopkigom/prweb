@@ -17,12 +17,13 @@ export default function OpenGraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "80px",
-          background: "linear-gradient(135deg, #09090b 0%, #27272a 100%)",
-          color: "#fafafa",
+          // Resume poster blue (resume/design/resume.tpl.html .p1).
+          background: "linear-gradient(135deg, #1c3a75 0%, #2f5aa8 100%)",
+          color: "#ffffff",
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 28, color: "#a1a1aa", letterSpacing: 4 }}>
+        <div style={{ fontSize: 28, color: "#dbe4f6", letterSpacing: 4 }}>
           SHIN HOJEONG
         </div>
         <div style={{ fontSize: 64, fontWeight: 700, marginTop: 20, lineHeight: 1.2 }}>
@@ -31,7 +32,7 @@ export default function OpenGraphImage() {
         <div style={{ fontSize: 64, fontWeight: 700, lineHeight: 1.2 }}>
           Now Building On-Device AI
         </div>
-        <div style={{ fontSize: 26, color: "#a1a1aa", marginTop: 32 }}>
+        <div style={{ fontSize: 26, color: "#dbe4f6", marginTop: 32 }}>
           llama.cpp · ONNX · Unity Sentis · AI Product Tech Lead
         </div>
       </div>

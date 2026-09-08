@@ -60,7 +60,7 @@ export default function RootLayout({
             <nav className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
               <Link
                 href="/"
-                className="-m-2 shrink-0 whitespace-nowrap p-2 font-semibold tracking-tight"
+                className="-m-2 shrink-0 whitespace-nowrap p-2 font-semibold tracking-tight hover:text-brand dark:hover:text-blue-300 transition-colors"
               >
                 신호정
               </Link>
@@ -70,7 +70,7 @@ export default function RootLayout({
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                        className="hover:text-brand dark:hover:text-blue-300 transition-colors"
                       >
                         {item.label}
                       </Link>
@@ -90,7 +90,7 @@ export default function RootLayout({
               <span className="flex gap-4">
                 <a
                   href="mailto:seenjeonga@gmail.com"
-                  className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  className="hover:text-brand dark:hover:text-blue-300 transition-colors"
                 >
                   Email
                 </a>
@@ -98,7 +98,7 @@ export default function RootLayout({
                   href="https://github.com/Yopkigom"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                  className="hover:text-brand dark:hover:text-blue-300 transition-colors"
                 >
                   GitHub
                 </a>

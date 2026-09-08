@@ -6,6 +6,19 @@ test.describe("navigation", () => {
     await expect(page).toHaveTitle(/신호정/);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByRole("link", { name: "프로젝트 보기" })).toBeVisible();
+    // Resume poster → Overview → Showcase order, mirroring the design resume.
+    await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+    await expect(page.getByRole("img", { name: /증명사진/ })).toBeVisible();
+  });
+
+  test("projects page lists featured rows that link to detail pages", async ({ page }) => {
+    await page.goto("/projects/");
+    await expect(page.getByRole("heading", { name: /Featured/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /More/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Unity 온디바이스 RAG 앱", exact: true })).toHaveAttribute(
+      "href",
+      "/projects/unity-ondevice-rag/"
+    );
   });
 
   test("nav links reach projects, about, and ask", async ({ page }) => {
@@ -28,7 +41,17 @@ test.describe("navigation", () => {
     await expect(page).toHaveURL(/avatar-sequential-generation/);
     await expect(page.getByRole("heading", { name: "문제" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "역할" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Key Numbers" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Technical Deep Dive" })).toBeVisible();
+  });
+
+  test("home poster fits a phone viewport without horizontal overflow", async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto("/");
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
+    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
+    await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
   });
 
   test("project without a deep dive renders L2 only, with repo link when present", async ({ page }) => {
@@ -41,8 +64,12 @@ test.describe("navigation", () => {
 
   test("home shows the demo video section with two embeds", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: "시연 영상" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /Showcase/ })).toBeVisible();
     await expect(page.locator("iframe[src*=\"youtube-nocookie.com/embed/\"]")).toHaveCount(2);
+    await expect(page.getByRole("link", { name: /광고 소재 생성 서비스 결과물/ })).toHaveAttribute(
+      "href",
+      /github\.com/
+    );
   });
 
   test("header fits a phone viewport without horizontal overflow", async ({ page }) => {
