@@ -66,8 +66,8 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 - 원본은 job-hunt 저장소에서 `python -X utf8 resume/design/build.py --web`으로 만든
   `resume/derived/신호정_웹_이력서.pdf`(휴대폰 번호 제외, 사진 유지). 이력서가 바뀌면 다시 빌드해서
   `public/resume.pdf`로 덮어쓴다. **제출용(`신호정_이력서.pdf`, 휴대폰 포함)을 올리지 않는다.**
-- 검색 노출 차단: `public/_headers`가 `X-Robots-Tag: noindex, nofollow`를 붙이고 `robots.ts`가
-  `/resume.pdf`를 disallow한다. 접근 통제는 공개 링크뿐이다.
+- 검색 노출 차단: `public/_headers`가 `X-Robots-Tag: noindex, nofollow`를 붙인다. `robots.ts`에서 **disallow하지
+  않는다**(크롤러가 파일을 가져와야 noindex 헤더를 읽는다). 접근 통제는 공개 링크뿐이다.
 - E2E(`e2e/site.spec.ts`)가 버튼·`download` 속성·PDF 200 응답을 확인한다.
 
 ## 3. 로컬 개발

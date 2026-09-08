@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 
 // Public resume PDF (phone number removed, photo kept). Built in the job-hunt repo with
 // `python -X utf8 resume/design/build.py --web` and copied to public/resume.pdf.
-// Served with X-Robots-Tag: noindex (public/_headers) and disallowed in robots.ts.
+// Served with X-Robots-Tag: noindex (public/_headers); not disallowed in robots.ts so crawlers can read that header.
 const RESUME_PDF_PATH = "/resume.pdf";
 const RESUME_PDF_FILENAME = "신호정_웹_이력서.pdf";
 

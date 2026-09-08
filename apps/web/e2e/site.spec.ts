@@ -68,6 +68,10 @@ test.describe("navigation", () => {
     const response = await page.request.get("/resume.pdf");
     expect(response.status()).toBe(200);
     expect(response.headers()["content-type"]).toContain("application/pdf");
+
+    // noindex lives in the X-Robots-Tag header, so the PDF must stay crawlable.
+    const robots = await page.request.get("/robots.txt");
+    expect(await robots.text()).not.toContain("Disallow: /resume.pdf");
   });
 
   test("about resume grid fits a phone viewport without horizontal overflow", async ({ page }) => {
