@@ -56,7 +56,19 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 
 ### About / 연락처
 
-`apps/web/src/app/about/page.tsx`, 푸터는 `apps/web/src/app/layout.tsx`.
+`apps/web/src/app/about/page.tsx`, 푸터는 `apps/web/src/app/layout.tsx`. About은 디자인 이력서와 같은
+양식(좌측 파란 띠 라벨 + 우측 흰색·크림 교대 상자)이며, 상단 데이터 배열(`SUMMARY`, `CAREER`, …)만 고치면
+렌더링은 `ResumeSection` / `ResumeRow`가 처리한다. 수치는 마스터 이력서와 같이 바꾼다.
+
+### 이력서 PDF 다운로드 (`/resume.pdf`)
+
+- About 우상단 버튼이 `public/resume.pdf`를 `신호정_웹_이력서.pdf` 이름으로 내려준다.
+- 원본은 job-hunt 저장소에서 `python -X utf8 resume/design/build.py --web`으로 만든
+  `resume/derived/신호정_웹_이력서.pdf`(휴대폰 번호 제외, 사진 유지). 이력서가 바뀌면 다시 빌드해서
+  `public/resume.pdf`로 덮어쓴다. **제출용(`신호정_이력서.pdf`, 휴대폰 포함)을 올리지 않는다.**
+- 검색 노출 차단: `public/_headers`가 `X-Robots-Tag: noindex, nofollow`를 붙이고 `robots.ts`가
+  `/resume.pdf`를 disallow한다. 접근 통제는 공개 링크뿐이다.
+- E2E(`e2e/site.spec.ts`)가 버튼·`download` 속성·PDF 200 응답을 확인한다.
 
 ## 3. 로컬 개발
 

@@ -1,0 +1,4 @@
+# Cloudflare Workers static assets: custom response headers.
+# The resume PDF is reachable by link only; keep it out of search indexes.
+/resume.pdf
+  X-Robots-Tag: noindex, nofollow

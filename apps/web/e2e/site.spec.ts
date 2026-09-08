@@ -15,8 +15,8 @@ test.describe("navigation", () => {
 
     await page.getByRole("link", { name: "About" }).click();
     await expect(page).toHaveURL(/\/about\/$/);
-    await expect(page.getByRole("heading", { name: "특허" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "경력" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /특허/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /경력/ })).toBeVisible();
 
     await page.getByRole("link", { name: "Ask AI" }).click();
     await expect(page).toHaveURL(/\/ask\/$/);
@@ -56,6 +56,27 @@ test.describe("navigation", () => {
     // One text line plus p-2 padding is ~40px; a wrapped brand is 80px+.
     expect(box?.height ?? 0).toBeLessThan(60);
     await expect(page.getByRole("radio", { name: "Dark" })).toBeVisible();
+  });
+
+  test("about offers the resume PDF download with a Korean file name", async ({ page }) => {
+    await page.goto("/about/");
+    const link = page.getByRole("link", { name: "이력서 PDF 다운로드" });
+    await expect(link).toBeVisible();
+    await expect(link).toHaveAttribute("href", "/resume.pdf");
+    await expect(link).toHaveAttribute("download", "신호정_웹_이력서.pdf");
+
+    const response = await page.request.get("/resume.pdf");
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain("application/pdf");
+  });
+
+  test("about resume grid fits a phone viewport without horizontal overflow", async ({ page }) => {
+    await page.setViewportSize({ width: 360, height: 800 });
+    await page.goto("/about/");
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
+    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
+    await expect(page.getByRole("heading", { name: /경력/ })).toBeVisible();
   });
 
   test("unknown route renders the 404 page", async ({ page }) => {
