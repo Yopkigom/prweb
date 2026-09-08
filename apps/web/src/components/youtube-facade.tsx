@@ -38,14 +38,14 @@ export function YouTubeFacade({ id, title, poster }: YouTubeFacadeProps) {
       className="group relative block h-full w-full cursor-pointer overflow-hidden"
     >
       {/* Static export runs Image unoptimized; the poster is pre-sized to 960x540.
-          The posters sit in the first viewport and become the desktop LCP element,
-          so they must not be lazy-loaded (Lighthouse: ~1s load delay otherwise). */}
+          Keep the default lazy loading: `priority` / `loading="eager"` both emit a
+          <link rel=preload> that competes with CSS/JS on slow mobile and pushes the
+          header text LCP past 2.5 s (Lighthouse mobile 100 -> 92~98). */}
       <Image
         src={poster}
         alt=""
         width={960}
         height={540}
-        priority
         className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
       />
       <span className="absolute inset-0 flex items-center justify-center bg-black/25 transition-colors group-hover:bg-black/35">

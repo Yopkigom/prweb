@@ -95,7 +95,8 @@ export default function HomePage() {
                 alt="광고 소재 생성 서비스 결과물, 만화형 6칸 3x2 합성본"
                 width={1344}
                 height={896}
-                priority
+                // Below the fold on every viewport: no `priority` (its 124 KB preload
+                // used to compete with CSS/JS on the mobile critical path).
                 className="h-full w-full object-cover transition-transform group-hover:scale-[1.02]"
               />
               <span className="absolute right-4 bottom-4 rounded-sm bg-ink/85 px-2.5 py-1 font-serif text-sm italic">
