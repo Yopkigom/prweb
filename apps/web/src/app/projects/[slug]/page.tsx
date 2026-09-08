@@ -52,7 +52,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const DeepDive = deepDives[project.deepDive];
 
   return (
-    <article className="mx-auto max-w-4xl space-y-8">
+    <article className="space-y-8">
       {/* L2: problem / role / outcome — the recruiter-facing layer */}
       <header className="space-y-3">
         <h2 className="text-3xl font-bold tracking-tight">{project.title}</h2>

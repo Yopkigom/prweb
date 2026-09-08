@@ -8,8 +8,6 @@ export const metadata: Metadata = {
 // The chat box carries its own title, description, and "how it was built" link.
 export default function AskPage() {
   return (
-    <div className="mx-auto max-w-4xl">
-      <ChatClient />
-    </div>
+    <ChatClient />
   );
 }

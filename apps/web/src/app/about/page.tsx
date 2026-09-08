@@ -293,7 +293,7 @@ const CONTACT = [
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="space-y-8">
       <section className={SHEET_CLASS}>
         {/* Summary + self-introduction share one section above the numbers. */}
         <div className={SHEET_HEAD_CLASS}>
