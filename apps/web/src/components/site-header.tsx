@@ -11,10 +11,11 @@ export function SiteHeader() {
         <h1 className="text-2xl font-black leading-tight tracking-tight sm:text-3xl">
           Unity 16년, 멀티플랫폼 AI를 주도합니다.
         </h1>
-        <p className="mt-1.5 text-base font-bold sm:text-lg">
-          신호정
+        <p className="mt-1.5 flex flex-wrap items-baseline text-base font-bold sm:text-lg">
+          {/* Name matches the h1 size; the role keeps the smaller line size. */}
+          <span className="text-2xl font-black tracking-tight sm:text-3xl">신호정</span>
           <span className="mx-2 font-normal opacity-60">|</span>
-          AI 제품 개발 리드
+          <span>AI 제품 개발 리드</span>
         </p>
 
         <div className="mt-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
