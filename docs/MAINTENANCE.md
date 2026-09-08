@@ -52,7 +52,7 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 
 ### 홈 (이력서 1~3쪽 양식)
 
-`apps/web/src/app/page.tsx`는 파란 시트 세 장이다. ① 헤드라인(한 줄 제목 → 이름 | 역할 → Applying For → Introduction → 버튼 3개) 바로 아래에 Overview 숫자 타일을 이어 붙인 시트, ② Showcase(저장소 카드 + 시연 영상), ③ 주요 프로젝트 크림 프레임 카드. 경력·특허·기술 스택은 홈에 두지 않고 About에만 있다. 각 블록은 파일 상단의 데이터 배열(`OVERVIEW`, `DEMO_VIDEOS`, `SHOWCASE_REPO`)만 고친다. 수치는 마스터 이력서와 같이 바꾼다.
+`apps/web/src/app/page.tsx`는 파란 시트 한 장이다. 헤드라인(한 줄 제목 → 이름 | 역할 → Applying For → Introduction → 버튼 3개) → Showcase(저장소 카드 + 시연 영상) → 주요 프로젝트(크림 프레임 하나에 6건 목록). Overview 숫자 타일은 About 상단(`about/page.tsx`의 `OVERVIEW` 배열)에 있고, 경력·특허·기술 스택도 About에만 있다. 홈은 `DEMO_VIDEOS`, `SHOWCASE_REPO` 배열만 고친다. 수치는 마스터 이력서와 같이 바꾼다.
 
 - Showcase 썸네일은 `public/showcase-ad.jpg`. 사진은 홈에 쓰지 않는다(웹용 PDF에만 있음).
 - `DEMO_VIDEOS`(YouTube ID·제목·설명·연결 프로젝트 slug)의 임베드는 `youtube-nocookie.com`. 같은 영상을 프로젝트 카드의 `video` 필드와 `chat-worker/src/context.json`의 `links.demo_videos`에도 함께 넣는다.

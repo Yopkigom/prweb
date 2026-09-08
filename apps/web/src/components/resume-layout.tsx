@@ -22,6 +22,13 @@ export const BUTTON_SECONDARY_CLASS =
 // Georgia-italic underlined heading used on the blue sheets.
 export const SERIF_HEADING_CLASS =
   "font-serif text-xl font-bold italic underline decoration-1 underline-offset-4";
+// Solid blue sheet (resume pages 1~3) and its ruled section header.
+export const SHEET_CLASS = "rounded-2xl bg-brand p-6 text-white sm:p-10";
+export const SHEET_HEAD_CLASS =
+  "flex flex-col gap-2 border-b-2 border-white/70 pb-4 sm:flex-row sm:items-end sm:justify-between";
+export const SHEET_TITLE_CLASS = "font-serif text-4xl font-bold italic leading-none";
+export const SHEET_SUBTITLE_CLASS = "ml-3 font-sans text-base font-normal not-italic opacity-85";
+export const CREAM_FRAME_CLASS = "bg-cream p-2.5";
 
 const BOX_CLASS = "px-6 py-3 text-sm leading-relaxed";
 const BOX_ALT_CLASS = "bg-cream dark:bg-zinc-900";

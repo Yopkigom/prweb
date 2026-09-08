@@ -6,10 +6,11 @@ test.describe("navigation", () => {
     await expect(page).toHaveTitle(/신호정/);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(page.getByRole("link", { name: "프로젝트 보기", exact: true })).toBeVisible();
-    // Headline → Applying For → Introduction → buttons → Overview, all on one blue sheet.
+    // Headline → Applying For → Introduction → buttons → Showcase → Projects, one blue sheet.
     await expect(page.getByRole("heading", { name: "Introduction" })).toBeVisible();
-    await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^Showcase/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /^Projects/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^Overview/ })).toHaveCount(0);
   });
 
   test("projects page lists featured rows that link to detail pages", async ({ page }) => {
@@ -29,6 +30,7 @@ test.describe("navigation", () => {
 
     await page.getByRole("link", { name: "About" }).click();
     await expect(page).toHaveURL(/\/about\/$/);
+    await expect(page.getByRole("heading", { name: /^Overview/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /특허/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /경력/ })).toBeVisible();
 
@@ -52,7 +54,7 @@ test.describe("navigation", () => {
     const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
     const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
     expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
-    await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^Showcase/ })).toBeVisible();
   });
 
   test("project without a deep dive renders L2 only, with repo link when present", async ({ page }) => {

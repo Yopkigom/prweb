@@ -7,6 +7,11 @@ import {
   ResumeFrame,
   ResumeRow,
   ResumeSection,
+  SERIF_HEADING_CLASS,
+  SHEET_CLASS,
+  SHEET_HEAD_CLASS,
+  SHEET_TITLE_CLASS,
+  StatTile,
 } from "../../components/resume-layout";
 
 export const metadata: Metadata = {
@@ -20,6 +25,66 @@ const RESUME_PDF_PATH = "/resume.pdf";
 const RESUME_PDF_FILENAME = "신호정_웹_이력서.pdf";
 
 // Every number below mirrors the master resume. Change both or neither.
+
+// Resume page 2: numbers first. Rendered as a blue sheet above the detail frame.
+const OVERVIEW = [
+  {
+    en: "Real-time Client",
+    ko: "실시간 클라이언트 16년",
+    desc: "캐주얼, 리듬 게임에서 소셜 아바타 앱, 디지털치료기기까지. 프레임 예산 안에서 무엇을 지킬지 정하는 일",
+    stats: [
+      { value: "16", unit: "년", label: "Unity 실시간 클라이언트 개발 경력" },
+      { value: "30", unit: "fps", label: "10인 이상 동시 참여 그룹 콘텐츠에서 평균 유지" },
+      { value: "18", unit: "개 이상", label: "동시에 조합하는 아바타 부위 수" },
+      { value: "3", unit: "개월", label: "12년 된 32bit 앱을 64bit로 1인 전환" },
+    ],
+  },
+  {
+    en: "Team Leading",
+    ko: "개발팀장 3년 4개월",
+    desc: "소셜 아바타 앱 Moii. 주니어 4명과 4개월 만에 프로토타입, 1년 만에 오픈 베타",
+    stats: [
+      { value: "30", unit: "만", label: "누적 다운로드" },
+      { value: "4.7", unit: "/5.0", label: "사용자 평점" },
+      { value: "4", unit: "명", label: "3년 4개월 리딩한 주니어 개발자" },
+      { value: "1", unit: "년", label: "오픈 베타까지, 4개월 만에 프로토타입" },
+    ],
+  },
+  {
+    en: "On-device AI",
+    ko: "모델 경량화와 실기기 배포",
+    desc: "의료영상 분류 모델 3종 포맷 변환, llama.cpp를 Unity에 직접 통합해 Galaxy S25에서 RAG 구동",
+    stats: [
+      { value: "3.64", unit: "배", label: "INT8 양자화 압축, 16.24MB에서 4.47MB" },
+      { value: "2.15", unit: "배", label: "ONNX 추론 지연 단축, 20.20ms에서 9.40ms" },
+      { value: "0", unit: "건", label: "위음성(FN), Recall 1.0 유지 검증" },
+      { value: "1.1", unit: "GB", label: "임베딩 모델 FP16 경량화, 2.2GB에서" },
+    ],
+  },
+  {
+    en: "Tech Lead",
+    ko: "두 팀 프로젝트 동시 테크리드",
+    desc: "2026년 8월, 광고 소재 생성 서비스와 재난 대피 안내 서비스를 동시에 이끌어 둘 다 제출",
+    stats: [
+      { value: "2", unit: "팀", label: "동시 테크리드, K-DT 해커톤 장려상(장관상)" },
+      { value: "165", unit: "건", label: "팀 커밋 최다, ADR 19건 작성" },
+      { value: "61", unit: "%", label: "팀 전체 커밋 약 270건 중 본인 비중" },
+      { value: "22", unit: "회", label: "모듈 간 HTTP 계약(openapi.yaml) 개정 소유" },
+    ],
+  },
+  {
+    en: "IP & Operations",
+    ko: "지식재산과 개인 운영 자산",
+    desc: "등록특허 국내 3건, 미국 1건. PR 사이트와 Ask AI 챗봇을 운영비 0원으로 운영 중",
+    stats: [
+      { value: "4", unit: "건", label: "등록특허, 국가연구개발사업 참여" },
+      { value: "5", unit: "건", label: "후속 출원에 피인용된 특허" },
+      { value: "100", label: "Lighthouse 접근성, SEO 100, 성능 97 ~ 100" },
+      { value: "0.6", unit: "초", label: "Ask AI 챗봇 응답, 운영비 0원" },
+    ],
+  },
+] as const;
+
 const SUMMARY = [
   {
     label: "실시간 클라이언트",
@@ -262,6 +327,41 @@ export default function AboutPage() {
           이력서 PDF 다운로드
         </a>
       </header>
+
+      <section className={SHEET_CLASS}>
+        <div className={SHEET_HEAD_CLASS}>
+          <h2 className={SHEET_TITLE_CLASS}>Overview</h2>
+          <p className="text-sm leading-relaxed sm:text-right">
+            <b>숫자로 보는 핵심 역량.</b>
+            <br />
+            모든 수치의 근거와 맥락은 아래 상세와 프로젝트 페이지에 있습니다.
+          </p>
+        </div>
+        {OVERVIEW.map((group, index) => (
+          <div
+            key={group.en}
+            className={`grid gap-6 py-8 md:grid-cols-[14rem_minmax(0,1fr)] ${
+              index < OVERVIEW.length - 1 ? "border-b border-white/30" : "pb-2"
+            }`}
+          >
+            <div>
+              <h3 className={SERIF_HEADING_CLASS}>{group.en}</h3>
+              <div className="mt-2 font-bold">{group.ko}</div>
+              <p className="mt-1 text-sm leading-relaxed opacity-90">{group.desc}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-4">
+              {group.stats.map((stat) => (
+                <StatTile
+                  key={stat.label}
+                  value={stat.value}
+                  unit={"unit" in stat ? stat.unit : undefined}
+                  label={stat.label}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
 
       <ResumeFrame>
         <ResumeSection en="Summary" ko="요약" caption="실시간 클라이언트 16년, AI 제품 개발 리드">
