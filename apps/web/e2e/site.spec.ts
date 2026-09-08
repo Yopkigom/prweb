@@ -1,44 +1,54 @@
 import { expect, test } from "@playwright/test";
 
 test.describe("navigation", () => {
-  test("home page loads with hero and featured projects", async ({ page }) => {
+  test("home shows the sticky headline and the Showcase sheet", async ({ page }) => {
     await page.goto("/");
     await expect(page).toHaveTitle(/신호정/);
-    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByRole("link", { name: "프로젝트 보기", exact: true })).toBeVisible();
-    // Headline → Applying For → Introduction → buttons → Showcase → Projects, one blue sheet.
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(/Unity 16년/);
     await expect(page.getByRole("heading", { name: "Introduction" })).toBeVisible();
+    // Showcase is the landing section and its button is the active one.
+    await expect(page.getByRole("link", { name: "쇼케이스" })).toHaveAttribute("aria-current", "page");
     await expect(page.getByRole("heading", { name: /^Showcase/ })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /^Projects/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /^Overview/ })).toHaveCount(0);
+    await expect(page.getByRole("heading", { name: /^Projects/ })).toHaveCount(0);
+    // The old top menu and theme toggle are gone.
+    await expect(page.getByRole("radiogroup")).toHaveCount(0);
   });
 
-  test("projects page lists featured rows that link to detail pages", async ({ page }) => {
-    await page.goto("/projects/");
-    await expect(page.getByRole("heading", { name: /Featured/ })).toBeVisible();
-    await expect(page.getByRole("heading", { name: /More/ })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Unity 온디바이스 RAG 앱", exact: true })).toHaveAttribute(
-      "href",
-      "/projects/unity-ondevice-rag/"
-    );
-  });
-
-  test("nav links reach projects, about, and ask", async ({ page }) => {
+  test("header buttons reach projects, about, and ask with active state", async ({ page }) => {
     await page.goto("/");
-    await page.getByRole("link", { name: "Projects" }).click();
+    await page.getByRole("link", { name: "프로젝트", exact: true }).click();
     await expect(page).toHaveURL(/\/projects\/$/);
+    await expect(page.getByRole("link", { name: "프로젝트", exact: true })).toHaveAttribute(
+      "aria-current",
+      "page"
+    );
 
-    await page.getByRole("link", { name: "About" }).click();
+    await page.getByRole("link", { name: "경력 · 특허 · 수상" }).click();
     await expect(page).toHaveURL(/\/about\/$/);
     await expect(page.getByRole("heading", { name: /^Overview/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /특허/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: /경력/ })).toBeVisible();
 
-    await page.getByRole("link", { name: "Ask AI" }).click();
+    await page.getByRole("link", { name: "Ask AI에게 질문하기" }).click();
     await expect(page).toHaveURL(/\/ask\/$/);
+    await expect(page.getByRole("link", { name: "Ask AI에게 질문하기" })).toHaveAttribute(
+      "aria-current",
+      "page"
+    );
   });
 
-  test("project card navigates to a detail page with L2/L3 sections", async ({ page }) => {
+  test("projects page lists featured and more groups that link to detail pages", async ({ page }) => {
+    await page.goto("/projects/");
+    await expect(page.getByRole("heading", { name: /^Projects/ })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /^More/ })).toBeVisible();
+    await expect(page.getByRole("link", { name: /Unity 온디바이스 RAG 앱/ })).toHaveAttribute(
+      "href",
+      "/projects/unity-ondevice-rag/"
+    );
+  });
+
+  test("project row navigates to a detail page with L2/L3 sections", async ({ page }) => {
     await page.goto("/projects/");
     await page.getByRole("link", { name: /아바타 순차 생성/ }).first().click();
     await expect(page).toHaveURL(/avatar-sequential-generation/);
@@ -46,15 +56,6 @@ test.describe("navigation", () => {
     await expect(page.getByRole("heading", { name: "역할" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Key Numbers" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Technical Deep Dive" })).toBeVisible();
-  });
-
-  test("home poster fits a phone viewport without horizontal overflow", async ({ page }) => {
-    await page.setViewportSize({ width: 360, height: 800 });
-    await page.goto("/");
-    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
-    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
-    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
-    await expect(page.getByRole("heading", { name: /^Showcase/ })).toBeVisible();
   });
 
   test("project without a deep dive renders L2 only, with repo link when present", async ({ page }) => {
@@ -65,27 +66,13 @@ test.describe("navigation", () => {
     await expect(page.getByRole("heading", { name: "Technical Deep Dive" })).toHaveCount(0);
   });
 
-  test("home shows the demo video section with two embeds", async ({ page }) => {
+  test("home shows the showcase with a repo card and two video embeds", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByRole("heading", { name: /Showcase/ })).toBeVisible();
     await expect(page.locator("iframe[src*=\"youtube-nocookie.com/embed/\"]")).toHaveCount(2);
     await expect(page.getByRole("link", { name: /광고 소재 생성 서비스 결과물/ })).toHaveAttribute(
       "href",
       /github\.com/
     );
-  });
-
-  test("header fits a phone viewport without horizontal overflow", async ({ page }) => {
-    await page.setViewportSize({ width: 360, height: 800 });
-    await page.goto("/");
-    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
-    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
-    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
-    const brand = page.getByRole("link", { name: "신호정" }).first();
-    const box = await brand.boundingBox();
-    // One text line plus p-2 padding is ~40px; a wrapped brand is 80px+.
-    expect(box?.height ?? 0).toBeLessThan(60);
-    await expect(page.getByRole("radio", { name: "Dark" })).toBeVisible();
   });
 
   test("about offers the resume PDF download with a Korean file name", async ({ page }) => {
@@ -104,34 +91,20 @@ test.describe("navigation", () => {
     expect(await robots.text()).not.toContain("Disallow: /resume.pdf");
   });
 
-  test("about resume grid fits a phone viewport without horizontal overflow", async ({ page }) => {
+  test("header, home, and about fit a phone viewport without horizontal overflow", async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 800 });
-    await page.goto("/about/");
-    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
-    const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
-    expect(scrollWidth).toBeLessThanOrEqual(clientWidth + 1);
-    await expect(page.getByRole("heading", { name: /경력/ })).toBeVisible();
+    for (const path of ["/", "/about/", "/projects/"]) {
+      await page.goto(path);
+      const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+      const clientWidth = await page.evaluate(() => document.documentElement.clientWidth);
+      expect(scrollWidth, path).toBeLessThanOrEqual(clientWidth + 1);
+    }
+    await expect(page.getByRole("link", { name: "쇼케이스" })).toBeVisible();
   });
 
   test("unknown route renders the 404 page", async ({ page }) => {
     const response = await page.goto("/no-such-page/");
     expect(response?.status()).toBe(404);
-  });
-});
-
-test.describe("theme toggle", () => {
-  test("switches between light and dark and persists across reload", async ({ page }) => {
-    await page.goto("/");
-    const html = page.locator("html");
-
-    await page.getByRole("radio", { name: "Dark" }).click();
-    await expect(html).toHaveClass(/dark/);
-
-    await page.reload();
-    await expect(html).toHaveClass(/dark/);
-
-    await page.getByRole("radio", { name: "Light" }).click();
-    await expect(html).not.toHaveClass(/dark/);
   });
 });
 

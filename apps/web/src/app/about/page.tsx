@@ -317,10 +317,8 @@ export default function AboutPage() {
     <div className="mx-auto max-w-4xl space-y-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">신호정</h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400">
-            Unity 실시간 클라이언트 16년, AI 제품 개발 리드
-          </p>
+          <h2 className="text-3xl font-bold tracking-tight">About</h2>
+          <p className="text-lg text-zinc-600">경력 · 특허 · 수상 · 교육 · 기술 스택</p>
         </div>
         <a href={RESUME_PDF_PATH} download={RESUME_PDF_FILENAME} className={BUTTON_PRIMARY_CLASS}>
           <DownloadIcon />

@@ -46,7 +46,7 @@ declare global {
 }
 
 const CHIP_CLASS =
-  "rounded-full border border-brand/40 px-3 py-1.5 text-xs text-brand hover:bg-cream disabled:opacity-50 dark:border-blue-300/50 dark:text-blue-300 dark:hover:bg-zinc-900";
+  "rounded-full border border-brand/40 px-3 py-1.5 text-xs text-brand hover:bg-cream disabled:opacity-50";
 
 interface UiMessage {
   role: "user" | "assistant";
@@ -71,7 +71,7 @@ const markdownComponents: Components = {
     if (isBlock) {
       return (
         <code
-          className="my-2 block overflow-x-auto rounded-lg bg-zinc-200 p-3 text-xs dark:bg-zinc-800"
+          className="my-2 block overflow-x-auto rounded-lg bg-zinc-200 p-3 text-xs"
           {...props}
         >
           {children}
@@ -79,7 +79,7 @@ const markdownComponents: Components = {
       );
     }
     return (
-      <code className="rounded bg-zinc-200 px-1 py-0.5 text-xs dark:bg-zinc-800" {...props}>
+      <code className="rounded bg-zinc-200 px-1 py-0.5 text-xs" {...props}>
         {children}
       </code>
     );
@@ -273,7 +273,7 @@ export default function ChatClient() {
     !isLoading && messages.length > 0 && messages[messages.length - 1]?.role === "assistant";
 
   return (
-    <div className="flex h-[min(70dvh,720px)] min-h-[420px] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="flex h-[min(70dvh,720px)] min-h-[420px] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white">
       {/* Band-style header, matching the resume sheets used across the site. */}
       <div className="flex items-baseline justify-between gap-3 bg-brand px-4 py-3 text-white">
         <span className="font-serif text-lg font-bold italic underline decoration-1 underline-offset-4">
@@ -312,7 +312,7 @@ export default function ChatClient() {
               className={
                 message.role === "user"
                   ? "max-w-[80%] rounded-2xl rounded-br-sm bg-brand px-4 py-2 text-sm text-white"
-                  : "max-w-[80%] rounded-2xl rounded-bl-sm bg-cream px-4 py-2 text-sm dark:bg-zinc-900"
+                  : "max-w-[80%] rounded-2xl rounded-bl-sm bg-cream px-4 py-2 text-sm"
               }
             >
               {message.role === "assistant" ? (
@@ -353,13 +353,13 @@ export default function ChatClient() {
       </div>
 
       {error !== null && (
-        <p className="border-t border-zinc-200 px-4 py-2 text-xs text-red-600 dark:border-zinc-800 dark:text-red-400">
+        <p className="border-t border-zinc-200 px-4 py-2 text-xs text-red-600">
           {error}
         </p>
       )}
 
       <form
-        className="flex items-center gap-2 border-t border-zinc-200 p-3 dark:border-zinc-800"
+        className="flex items-center gap-2 border-t border-zinc-200 p-3"
         onSubmit={(event) => {
           event.preventDefault();
           void send(input);
@@ -371,13 +371,13 @@ export default function ChatClient() {
           onChange={(event) => setInput(event.target.value)}
           placeholder="질문을 입력하세요…"
           maxLength={2000}
-          className="flex-1 rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-brand dark:border-zinc-700 dark:focus:border-blue-300"
+          className="flex-1 rounded-lg border border-zinc-300 bg-transparent px-3 py-2 text-sm outline-none focus:border-brand"
         />
         {isLoading ? (
           <button
             type="button"
             onClick={stop}
-            className="rounded-lg border border-brand/50 px-4 py-2 text-sm font-medium text-brand hover:bg-cream dark:border-blue-300/50 dark:text-blue-300 dark:hover:bg-zinc-900"
+            className="rounded-lg border border-brand/50 px-4 py-2 text-sm font-medium text-brand hover:bg-cream"
           >
             중단
           </button>
@@ -392,8 +392,8 @@ export default function ChatClient() {
         )}
       </form>
 
-      <div className="flex items-center justify-between border-t border-zinc-200 px-4 py-2 dark:border-zinc-800">
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+      <div className="flex items-center justify-between border-t border-zinc-200 px-4 py-2">
+        <p className="text-xs text-zinc-500">
           AI가 생성한 답변으로, 부정확할 수 있습니다.
           {!isVerified && " · 봇 방지 확인 중…"}
         </p>

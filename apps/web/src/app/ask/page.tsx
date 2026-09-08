@@ -12,8 +12,8 @@ export default function AskPage() {
     <div className="mx-auto max-w-4xl space-y-6">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">Ask AI</h1>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400">
+          <h2 className="text-3xl font-bold tracking-tight">Ask AI</h2>
+          <p className="text-lg text-zinc-600">
             신호정의 경력과 프로젝트를 학습한 AI 어시스턴트입니다. Cloudflare Workers AI와 NVIDIA
             API 위에서 동작합니다.
           </p>

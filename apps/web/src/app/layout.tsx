@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ThemeProvider } from "../components/theme-provider";
-import { ThemeToggle } from "../components/theme-toggle";
+import { SiteHeader } from "../components/site-header";
 import "./globals.css";
 
 const SITE_URL = "https://prweb.yopkigom.workers.dev";
@@ -41,71 +39,34 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const NAV_ITEMS = [
-  { href: "/projects/", label: "Projects" },
-  { href: "/about/", label: "About" },
-  { href: "/ask/", label: "Ask AI" },
-] as const;
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className="h-full antialiased" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <header className="sticky top-0 z-10 border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur">
-            <nav className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
-              <Link
-                href="/"
-                className="-m-2 shrink-0 whitespace-nowrap p-2 font-semibold tracking-tight hover:text-brand dark:hover:text-blue-300 transition-colors"
+    <html lang="ko" className="h-full antialiased">
+      <body className="min-h-full flex flex-col bg-white text-zinc-900">
+        <SiteHeader />
+        <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-8">{children}</main>
+        <footer className="border-t border-zinc-200">
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-sm text-zinc-500">
+            <span>© 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers</span>
+            <span className="flex gap-4">
+              <a href="mailto:seenjeonga@gmail.com" className="hover:text-brand transition-colors">
+                Email
+              </a>
+              <a
+                href="https://github.com/Yopkigom"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-brand transition-colors"
               >
-                신호정
-              </Link>
-              <div className="flex items-center gap-3 sm:gap-6">
-                <ul className="flex gap-3 whitespace-nowrap text-sm text-zinc-600 sm:gap-6 dark:text-zinc-400">
-                  {NAV_ITEMS.map((item) => (
-                    <li key={item.href}>
-                      <Link
-                        href={item.href}
-                        className="hover:text-brand dark:hover:text-blue-300 transition-colors"
-                      >
-                        {item.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <ThemeToggle />
-              </div>
-            </nav>
-          </header>
-          <main className="mx-auto w-full max-w-5xl flex-1 px-6 py-12">
-            {children}
-          </main>
-          <footer className="border-t border-zinc-200 dark:border-zinc-800">
-            <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-sm text-zinc-500">
-              <span>© 2026 신호정 · Built with Next.js, deployed on Cloudflare Workers</span>
-              <span className="flex gap-4">
-                <a
-                  href="mailto:seenjeonga@gmail.com"
-                  className="hover:text-brand dark:hover:text-blue-300 transition-colors"
-                >
-                  Email
-                </a>
-                <a
-                  href="https://github.com/Yopkigom"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-brand dark:hover:text-blue-300 transition-colors"
-                >
-                  GitHub
-                </a>
-              </span>
-            </div>
-          </footer>
-        </ThemeProvider>
+                GitHub
+              </a>
+            </span>
+          </div>
+        </footer>
         <script
           defer
           src="https://static.cloudflareinsights.com/beacon.min.js"

@@ -52,12 +52,14 @@ YouTube 임베드는 `youtube.com`이 아니라 **`youtube-nocookie.com`**을 �
 
 ### 홈 (이력서 1~3쪽 양식)
 
-`apps/web/src/app/page.tsx`는 파란 시트 한 장이다. 헤드라인(한 줄 제목 → 이름 | 역할 → Applying For → Introduction → 버튼 3개) → Showcase(저장소 카드 + 시연 영상) → 주요 프로젝트(크림 프레임 하나에 6건 목록). Overview 숫자 타일은 About 상단(`about/page.tsx`의 `OVERVIEW` 배열)에 있고, 경력·특허·기술 스택도 About에만 있다. 홈은 `DEMO_VIDEOS`, `SHOWCASE_REPO` 배열만 고친다. 수치는 마스터 이력서와 같이 바꾼다.
+상단 메뉴와 라이트/다크 토글은 없다. 대신 `apps/web/src/components/site-header.tsx`가 이력서 포스터 헤드라인(한 줄 제목 → 이름 | 역할 → Applying For → Introduction)과 바로가기 4개(`site-nav.tsx`: 쇼케이스 `/`, 프로젝트, 경력 · 특허 · 수상, Ask AI에게 질문하기)를 파란 헤더로 모든 페이지 상단에 고정한다(sm 이상에서 sticky, 폰에서는 스크롤). 현재 페이지 버튼은 크림색으로 채워진다. 테마는 라이트 하나뿐이라 `dark:` 클래스를 쓰지 않는다.
+
+`apps/web/src/app/page.tsx`(쇼케이스)는 파란 시트 한 장: 저장소 카드 + 시연 영상 2편. `DEMO_VIDEOS`, `SHOWCASE_REPO` 배열만 고친다. 프로젝트 목록은 `projects/page.tsx`(파란 시트, 크림 프레임 목록을 Featured / More 두 그룹으로), Overview 숫자 타일은 About 상단(`about/page.tsx`의 `OVERVIEW` 배열)에 있고, 경력·특허·기술 스택도 About에만 있다. 수치는 마스터 이력서와 같이 바꾼다.
 
 - Showcase 썸네일은 `public/showcase-ad.jpg`. 사진은 홈에 쓰지 않는다(웹용 PDF에만 있음).
 - `DEMO_VIDEOS`(YouTube ID·제목·설명·연결 프로젝트 slug)의 임베드는 `youtube-nocookie.com`. 같은 영상을 프로젝트 카드의 `video` 필드와 `chat-worker/src/context.json`의 `links.demo_videos`에도 함께 넣는다.
 - 공용 레이아웃(`ResumeFrame`/`ResumeSection`/`ResumeRow`/`ResumeFoot`/`StatTile`, 버튼·태그 클래스)은 `apps/web/src/components/resume-layout.tsx`. 색 토큰(`brand`, `brand-dark`, `brand-deep`, `cream`, `ink`)은 `globals.css`.
-- Projects 목록(`projects/page.tsx`)은 `featured` 여부로 Featured / More 두 절로 나뉘고, 상세(`projects/[slug]/page.tsx`)는 문제·역할·성과 띠 + Key Numbers 타일 + Technical Deep Dive 순서다.
+- 상세(`projects/[slug]/page.tsx`)는 문제·역할·성과 띠 + Key Numbers 타일 + Technical Deep Dive 순서다.
 
 ### About / 연락처
 
@@ -109,7 +111,7 @@ GitHub Actions(`deploy.yml`)가 lint → build → **E2E(웹만)** → deploy �
 
 ### E2E 테스트 (`apps/web/e2e/site.spec.ts`)
 
-정적 빌드(`out/`)를 `serve`로 띄워 그 위에서 실행합니다. 현재 커버리지: 홈 히어로, 내비게이션 전체 경로, 프로젝트 상세(L2/L3 섹션 존재), 404, 테마 토글(라이트/다크 전환·새로고침 후 유지), Ask 페이지 레이아웃(가로 스크롤 없음, 입력창 활성화 로직).
+정적 빌드(`out/`)를 `serve`로 띄워 그 위에서 실행합니다. 현재 커버리지: 고정 헤더와 쇼케이스 시트, 헤더 바로가기 4개의 경로·활성 상태, 프로젝트 목록 두 그룹, 프로젝트 상세(L2/L3 섹션 존재), 이력서 PDF 다운로드와 robots, 폰 뷰포트 가로 오버플로(홈·About·Projects), 404, Ask 페이지 레이아웃(가로 스크롤 없음, 입력창 활성화 로직).
 
 **의도적으로 테스트하지 않는 것**: 실제 챗봇 메시지 왕복(Turnstile 챌린지 + 실제 LLM 호출). CI에서 실행할 때마다 프로덕션 NVIDIA 크레딧/Workers AI 무료 한도를 소모하고, 헤드리스 브라우저의 Turnstile 통과 여부가 불안정해 플레이키해지기 때문입니다. UI 구조(입력창, 버튼 활성화 조건)만 검증합니다.
 

@@ -55,10 +55,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     <article className="mx-auto max-w-4xl space-y-8">
       {/* L2: problem / role / outcome — the recruiter-facing layer */}
       <header className="space-y-3">
-        <h1 className="text-3xl font-bold tracking-tight">{project.title}</h1>
-        <p className="text-lg text-zinc-600 dark:text-zinc-400">{project.hook}</p>
+        <h2 className="text-3xl font-bold tracking-tight">{project.title}</h2>
+        <p className="text-lg text-zinc-600">{project.hook}</p>
         {project.period !== "" && (
-          <p className="font-serif text-sm italic text-brand dark:text-blue-300">{project.period}</p>
+          <p className="font-serif text-sm italic text-brand">{project.period}</p>
         )}
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
@@ -132,10 +132,10 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       {DeepDive !== undefined && (
         <section className="space-y-4 pt-4">
-          <h2 className={`${SERIF_HEADING_CLASS} text-brand dark:text-blue-300`}>
+          <h2 className={`${SERIF_HEADING_CLASS} text-brand`}>
             Technical Deep Dive
           </h2>
-          <div className="prose prose-zinc max-w-none dark:prose-invert prose-a:underline-offset-4 prose-headings:font-semibold">
+          <div className="prose prose-zinc max-w-none prose-a:underline-offset-4 prose-headings:font-semibold">
             <DeepDive />
           </div>
         </section>
