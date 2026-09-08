@@ -126,7 +126,7 @@ CHROME_PATH=$(find ~/.cache/ms-playwright -name chrome -type f | head -1) \
   npx lighthouse http://127.0.0.1:4173/ --chrome-flags="--headless=new --no-sandbox"
 ```
 
-마지막 측정(2026-07-20): 전 페이지 accessibility 100 / performance 97~100 / SEO 100 / best-practices 92~96 (남은 감점은 로컬 테스트 환경의 CORS 아티팩트와 YouTube 임베드의 불가피한 쿠키 이슈 — 아래 5절 참고).
+마지막 측정(2026-09-08, 배포 사이트, Lighthouse 12 · Chrome 150): 전 페이지 accessibility 100 / best-practices 100 / SEO 100, performance 모바일 96~100 · 데스크톱 97~100. YouTube 쿠키 감점은 클릭 재생 facade(`components/youtube-facade.tsx`)로 해소했다. 로컬 `npx serve out` 측정에서는 Cloudflare 통계 비콘의 localhost CORS 오류로 best-practices 96이 남는데 배포 환경에서는 없다. 홈에서 이미지 `priority`/`loading="eager"`를 쓰면 `<link rel=preload>`가 모바일 크리티컬 패스에서 CSS·JS와 경쟁해 모바일 점수가 92~98로 떨어지므로 쓰지 않는다. 모바일 점수는 같은 배포에서도 관측 FCP 노이즈로 ±5점 흔들리니 2~3회 측정한다.
 
 ## 5. 알려진 함정 (다시 겪지 않도록)
 
