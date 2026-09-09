@@ -39,14 +39,14 @@ export function SiteHeader() {
           {/* Name matches the h1 size; the role keeps the smaller line size. */}
           <span className="text-2xl font-black tracking-tight sm:text-3xl">신호정</span>
           <span className="mx-2 font-normal opacity-60">|</span>
-          <span>AI 제품 개발 리드</span>
+          <span>AI 제품 개발 엔지니어</span>
         </p>
 
         <div className="mt-3 flex flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-4">
           <div className={`${SERIF_HEADING_CLASS} shrink-0 text-base`}>Applying For :</div>
           <p className="text-sm font-bold leading-relaxed">
-            AI 제품 개발 리드 / 테크리드
-            <span className="ml-2 font-normal opacity-90">(온디바이스 AI 클라이언트, 게임 AI 포함)</span>
+            AI Product Engineer / 온디바이스 AI 클라이언트 / 게임 AI
+            <span className="ml-2 font-normal opacity-90">(시니어 개발자, 테크리드 겸임 가능)</span>
           </p>
         </div>
 

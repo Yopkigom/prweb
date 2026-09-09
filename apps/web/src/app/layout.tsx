@@ -4,12 +4,12 @@ import "./globals.css";
 
 const SITE_URL = "https://prweb.yopkigom.workers.dev";
 const SITE_DESCRIPTION =
-  "Unity 실시간 클라이언트 16년, AI 제품 개발 리드. llama.cpp · ONNX · Unity Sentis 온디바이스 AI와 생성 AI 제품 테크리드 포트폴리오.";
+  "Unity 실시간 클라이언트 16년, AI 제품 개발 엔지니어. llama.cpp · ONNX · Unity Sentis 온디바이스 AI와 생성 AI 제품 서빙 포트폴리오.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "신호정 — Unity · On-Device AI · Tech Lead",
+    default: "신호정 — Unity · On-Device AI · AI Product Engineer",
     template: "%s | 신호정",
   },
   description: SITE_DESCRIPTION,
