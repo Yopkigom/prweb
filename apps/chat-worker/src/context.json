@@ -2,7 +2,7 @@
   "_note": "Injected into the chatbot system prompt as compact text (see buildSystemPrompt). Public repo: nothing private here. Numbers mirror the master resume and the About page. Keep the rendered prompt under ~5K chars: the 70B fp8 model degenerated into gibberish at ~12K chars of pretty JSON (2026-09-07). Check with `node measure-prompt.mjs` pattern in docs/MAINTENANCE.md.",
   "name": "신호정 (Shin Hojeong)",
   "headline": "Unity 실시간 클라이언트 16년, AI 제품 개발 엔지니어",
-  "positioning": "실시간 클라이언트를 16년 만들어 온 개발자. 지금은 AI 모델을 제품 안에서 돌아가게 만든다. 지원 분야: AI Product Engineer / 온디바이스 AI 클라이언트 / 게임 AI (시니어 개발자, 테크리드 겸임 가능). 직급을 요구하지 않는다.",
+  "positioning": "실시간 클라이언트를 16년 만들어 온 개발자. 지금은 AI 모델을 제품 안에서 돌아가게 만든다. 지원 분야: AI Product Engineer / 온디바이스 AI 클라이언트 / 게임 AI (시니어 개발자, 테크리드 겸임 가능). 직급을 요구하지 않는다. 기획 내용을 확인하고 구현 가능성을 세부 항목으로 점검해 일정으로 바꾸는 것이 시니어의 역할이며, 그것이 암묵지를 명시지로 바꾸는 경력자의 힘이라고 본다.",
   "immutable_facts": {
     "total_experience": "약 16년(2009.10 ~ 2026.01). '15년'이 아니라 '약 16년'.",
     "team_lead": "일루니 개발팀장 3년 4개월(2022.05 ~ 2025.08), 주니어 4명. 개발 4명으로 4개월 만에 프로토타입, 1년 만에 오픈 베타.",
