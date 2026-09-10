@@ -33,7 +33,7 @@ export function SiteHeader() {
     <header className="z-10 bg-brand text-white shadow-md sm:sticky sm:top-0">
       <div className="mx-auto max-w-5xl px-4 py-5 sm:px-6">
         <h1 className="text-2xl font-black leading-tight tracking-tight sm:text-3xl">
-          Unity 16년, 멀티플랫폼 AI를 주도합니다.
+          Unity 16년, AI 모델을 앱 안에서 돌립니다.
         </h1>
         <p className="mt-1.5 flex flex-wrap items-baseline text-base font-bold sm:text-lg">
           {/* Name matches the h1 size; the role keeps the smaller line size. */}
